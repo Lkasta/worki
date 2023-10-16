@@ -7,7 +7,7 @@ export interface InputProps {
 
 export function Input(props: InputProps) {
   return (
-    <div className="">
+    <div className="w-full rounded-lg">
       <label
         htmlFor="email"
         className={`font-semibold text-zinc-700 ${props.label ? '' : 'hidden'}`}

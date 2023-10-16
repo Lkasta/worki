@@ -13,11 +13,20 @@ const config: Config = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
-    },
-
-    fontFamily: {
-      sans: 'var(--font-roboto)',
-      alt: 'var(--font-bai-janjuree)',
+      width: {
+        'app-sm': '576px',
+        'app-md': '768px',
+        'app-lg': '1008px',
+        'app-xl': '1200px',
+        'max-screen': '100vh',
+        'img-card-desk': '13rem',
+      },
+      minWidth: {
+        'app-sm': '576px',
+        'app-md': '768px',
+        'app-lg': '1008px',
+        'app-xl': '1200px',
+      },
     },
   },
   plugins: [],

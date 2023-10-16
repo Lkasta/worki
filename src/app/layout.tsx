@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter, Roboto_Flex as Roboto, } from 'next/font/google'
+import { Inter, Roboto_Flex as Roboto } from 'next/font/google'
 import './globals.css'
 
 const inter = Inter({
@@ -21,7 +21,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="font">
-      <body className={`${inter.className} grid min-h-screen`}>{children}</body>
+      <body className={`${roboto.className} grid min-h-screen text-zinc-700`}>
+        {children}
+      </body>
     </html>
   )
 }

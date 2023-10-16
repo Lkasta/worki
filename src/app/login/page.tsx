@@ -4,7 +4,7 @@ export default function Login() {
   return (
     <div className="grid grid-cols-2 divide-x">
       <div className="flex items-center justify-center">
-        <div className="flex w-6/12 flex-col gap-10">
+        <div className="flex w-1/2 flex-col gap-10">
           <div className="Logo">
             <h1 className="text-7xl font-bold text-zinc-700">
               work<span className="text-violet-700">i</span>
@@ -28,11 +28,11 @@ export default function Login() {
                 name="password"
                 type="password"
                 label="Senha"
-                placeholder="hfghgfhfgh"
+                placeholder="•••••••••••••"
               />
             </div>
 
-            <button className="rounded-lg bg-violet-600 px-4 py-2 font-semibold text-zinc-50 shadow-sm">
+            <button className="rounded-lg bg-violet-600 px-4 py-2 font-semibold text-zinc-50 shadow-sm hover:bg-violet-500">
               Entrar
             </button>
           </div>
