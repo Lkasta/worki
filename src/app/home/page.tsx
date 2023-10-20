@@ -7,7 +7,7 @@ export default function Home() {
     <div>
       <Header />
       <div className="flex flex-col items-center justify-center">
-        <div className="w-full flex h-52 items-center justify-center bg-violet-600">
+        <div className="flex h-52 w-full items-center justify-center bg-violet-600">
           <h1 className="text-5xl font-bold text-white">
             O mais próximo para você...
           </h1>
