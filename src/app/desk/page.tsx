@@ -54,10 +54,10 @@ export default function Desk() {
           <div className="flex gap-4">
             <div className="w-2/3">
               <h1 className="py-4 text-2xl font-medium">
-                Mesa para trabalho: hospedado por CoworkingInPato
+                Mesa para trabalho: Hospedado por CoworkingInPato
               </h1>
               <div className="h-[1px] w-full bg-zinc-300" />
-              <h1 className="py-4 text-xl font-bold font-medium">
+              <h1 className="pb-4 text-xl font-bold font-medium">
                 O que esse lugar oferece:
               </h1>
               <div className="grid grid-cols-2 gap-3 pb-3">

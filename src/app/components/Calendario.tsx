@@ -13,7 +13,7 @@ export function Calendario() {
   )
   const [selectedEndDate, setSelectedEndDate] = useState<number | null>(null)
 
-  const daysOfWeek: string[] = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
+  const daysOfWeek: string[] = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S']
 
   const getDaysInMonth = (year: number, month: number): number => {
     return new Date(year, month + 1, 0).getDate()
@@ -31,6 +31,17 @@ export function Calendario() {
       isInMonth: boolean
     }[] = []
 
+    // Adiciona os dias anteriores ao primeiro dia do mês
+    for (let day = 0; day < firstDayOfMonth; day++) {
+      calendar.push({
+        day: null,
+        isStart: false,
+        isEnd: false,
+        inRange: false,
+        isInMonth: false,
+      })
+    }
+
     // Adiciona os dias do mês
     for (let day = 1; day <= totalDaysInMonth; day++) {
       const isStart = day === selectedStartDate
@@ -47,7 +58,7 @@ export function Calendario() {
         isStart,
         isEnd,
         inRange,
-        isInMonth: true, // Indica que o dia faz parte do mês atual
+        isInMonth: true,
       })
     }
 
@@ -68,7 +79,6 @@ export function Calendario() {
         setSelectedStartDate(day)
       }
     } else {
-      // Se já tiver ambas as datas selecionadas, reinicia a seleção
       setSelectedStartDate(day)
       setSelectedEndDate(null)
     }
@@ -86,10 +96,13 @@ export function Calendario() {
     }
   }
 
+  // Gere os próximos 10 anos a partir do ano atual
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: 10 }, (_, i) => currentYear + i);
+
   return (
-    <div className="mx-auto w-[335px] max-w-md rounded-lg border bg-white p-4 shadow-md">
+    <div className="  mx-auto my-8 w-[335px] max-w-md rounded-lg border bg-white p-4 shadow-md">
       <div className="mb-4 flex justify-between">
-        {/* Opções de Mês e Ano */}
         <div className="gap flex">
           <select
             className="rounded p-2 font-bold outline-none"
@@ -106,16 +119,20 @@ export function Calendario() {
           </select>
         </div>
         <div>
-          <input
-            type="number"
+          <select
             className="rounded p-2 font-bold outline-none"
             value={selectedYear}
             onChange={(e) => setSelectedYear(parseInt(e.target.value))}
-          />
+          >
+            {years.map((year) => (
+              <option key={year} value={year}>
+                {year}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
 
-      {/* Calendário */}
       <div className="mb-4 grid grid-cols-7 gap-2 text-center">
         {daysOfWeek.map((day) => (
           <div key={day} className="font-semibold">
@@ -136,7 +153,7 @@ export function Calendario() {
                   : calendarDay.isEnd
                   ? 'rounded bg-violet-700 text-white'
                   : ''
-                : 'opacity-0' // Oculta os dias que não fazem parte do mês atual
+                : 'opacity-0'
             }`}
             onClick={() => handleDayClick(calendarDay.day)}
           >
@@ -145,7 +162,6 @@ export function Calendario() {
         ))}
       </div>
 
-      {/* Botão */}
       <button
         className="w-full rounded bg-violet-700 px-4 py-2 text-white"
         onClick={handleButtonClick}
