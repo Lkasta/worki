@@ -1,0 +1,47 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Room {
+  id          Int     @id @default(autoincrement())
+  description String
+  city        String
+  district    String
+  price       Decimal // Use o tipo Decimal para valores monetários
+  rating      Float
+}
+
+model User {
+  id       Int       @id @default(autoincrement())
+  username String    @unique
+  email    String    @unique
+  password String
+  // Outros campos compartilhados
+  // ...
+  Provider Provider?
+  Client   Client?
+}
+
+model Provider {
+  id     Int  @id @default(autoincrement())
+  userId Int  @unique
+  user   User @relation(fields: [userId], references: [id])
+  // Outros campos específicos de fornecedores
+  // ...
+}
+
+model Client {
+  id     Int  @id @default(autoincrement())
+  userId Int  @unique
+  user   User @relation(fields: [userId], references: [id])
+  // Outros campos específicos de clientes
+  // ...
+}
