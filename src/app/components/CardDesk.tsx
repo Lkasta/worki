@@ -1,7 +1,21 @@
 'use client'
 import { BookmarkSimple, Star } from '@phosphor-icons/react'
 
-export function CardDesk() {
+interface CardDeskProps {
+  description: string
+  city: string
+  district: string
+  price: number
+  rating: number
+}
+
+export function CardDesk({
+  description,
+  city,
+  district,
+  price,
+  rating,
+}: CardDeskProps) {
   return (
     <div className="relative rounded-lg border border-gray-300 p-2.5 shadow">
       <img
@@ -11,17 +25,19 @@ export function CardDesk() {
       />
       <div className="absolute right-4 top-4 flex flex-col items-end gap-2.5 shadow-md">
         <div className="flex items-center justify-center gap-1 rounded-full bg-white p-1 px-2">
-          <p className="text-sm font-bold">4,6</p>
+          <p className="text-sm font-bold">{rating}</p>
           <Star size={20} weight="fill" color="#FFC700" />
         </div>
         <div className="flex items-center justify-center gap-1 rounded-full bg-white p-1">
           <BookmarkSimple size={20} weight="fill" color="#FFC700" />
         </div>
       </div>
-      <h1 className="text-xl font-bold">CoworkingInPato</h1>
-      <h1 className="text-sm font-bold text-zinc-400">Centro - Pato Branco</h1>
+      <h1 className="text-xl font-bold">{description}</h1>
+      <h1 className="text-sm font-bold text-zinc-400">
+        {city} - {district}
+      </h1>
       <div className="flex content-between items-center justify-center">
-        <p className="text-xs font-bold">R$ 40,00</p>
+        <p className="text-xs font-bold">R$ {price}</p>
         <div className="ml-auto max-w-min rounded-full bg-violet-200 px-2 py-1">
           <p className="text-xs font-bold uppercase text-violet-700">Basic</p>
         </div>

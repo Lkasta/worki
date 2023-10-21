@@ -1,13 +1,35 @@
+'use client'
+import { useEffect, useState } from 'react'
 import { CardDesk } from '../components/CardDesk'
 import { Input } from '../components/Input'
 import { Header } from '../header/Header'
 
 export default function Home() {
+  interface Room {
+    id: number
+    description: string
+    city: string
+    district: string
+    price: number
+    rating: number
+  }
+
+  const [roomData, setRoomData] = useState<Room[]>([]) // Inicialize o estado para os dados dos quartos
+
+  useEffect(() => {
+    // Faça a solicitação para buscar os dados dos quartos
+    fetch('/api/rooms')
+      .then((response) => response.json())
+      .then((data) => {
+        setRoomData(data.data) // Atualize o estado com os dados dos quartos
+      })
+  }, [])
+
   return (
     <div>
       <Header />
       <div className="flex flex-col items-center justify-center">
-        <div className="w-full flex h-52 items-center justify-center bg-violet-600">
+        <div className="flex h-52 w-full items-center justify-center bg-violet-600">
           <h1 className="text-5xl font-bold text-white">
             O mais próximo para você...
           </h1>
@@ -25,28 +47,16 @@ export default function Home() {
           <div className="w-app-lg">
             <h1 className="mb-2 text-2xl font-bold">Resultados</h1>
             <div className="flex justify-between">
-              <CardDesk />
-              <CardDesk />
-              <CardDesk />
-              <CardDesk />
-            </div>
-            <div className="mt-10 flex justify-between">
-              <CardDesk />
-              <CardDesk />
-              <CardDesk />
-              <CardDesk />
-            </div>
-            <div className="mt-10 flex justify-between">
-              <CardDesk />
-              <CardDesk />
-              <CardDesk />
-              <CardDesk />
-            </div>
-            <div className="mt-10 flex justify-between">
-              <CardDesk />
-              <CardDesk />
-              <CardDesk />
-              <CardDesk />
+              {roomData.map((room) => (
+                <CardDesk
+                  key={room.id} // Lembre-se de fornecer uma chave única
+                  description={room.description}
+                  city={room.city}
+                  district={room.district}
+                  price={room.price}
+                  rating={room.rating}
+                />
+              ))}
             </div>
           </div>
         </div>

@@ -1,6 +1,38 @@
+import { useState } from 'react'
 import { Input } from '../components/Input'
 
 export default function Login() {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const handleLogin = async () => {
+    try {
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username: email, password }),
+      })
+
+      if (response.ok) {
+        // Se a autenticação for bem-sucedida, você pode obter o token da resposta
+        const data = await response.json()
+        const token = data.token
+
+        // Armazene o token no armazenamento local
+        localStorage.setItem('token', token)
+
+        // Redirecione o usuário para a página protegida ou realize outra ação apropriada
+      } else {
+        // Trate o erro de autenticação, como exibir uma mensagem de erro para o usuário
+      }
+    } catch (error) {
+      // Trate os erros de rede ou outros erros
+      console.error(error)
+    }
+  }
+
   return (
     <div className="grid grid-cols-2 divide-x">
       <div className="flex items-center justify-center">
