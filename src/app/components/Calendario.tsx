@@ -31,10 +31,20 @@ export function Calendario() {
       isInMonth: boolean
     }[] = []
 
+    // Determine quantos dias extras são necessários no mês anterior
+    const daysBefore = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1
+
+    // Determine quantos dias extras são necessários no mês seguinte
+    const daysAfter = 42 - (daysBefore + totalDaysInMonth)
+
     // Adiciona os dias anteriores ao primeiro dia do mês
-    for (let day = 0; day < firstDayOfMonth; day++) {
+    for (
+      let day = totalDaysInMonth - daysBefore + 1;
+      day <= totalDaysInMonth;
+      day++
+    ) {
       calendar.push({
-        day: null,
+        day,
         isStart: false,
         isEnd: false,
         inRange: false,
@@ -42,7 +52,7 @@ export function Calendario() {
       })
     }
 
-    // Adiciona os dias do mês
+    // Adicione os dias do mês
     for (let day = 1; day <= totalDaysInMonth; day++) {
       const isStart = day === selectedStartDate
       const isEnd = day === selectedEndDate
@@ -59,6 +69,17 @@ export function Calendario() {
         isEnd,
         inRange,
         isInMonth: true,
+      })
+    }
+
+    // Adiciona os dias posteriores ao último dia do mês
+    for (let day = 1; day <= daysAfter; day++) {
+      calendar.push({
+        day,
+        isStart: false,
+        isEnd: false,
+        inRange: false,
+        isInMonth: false,
       })
     }
 
@@ -97,11 +118,11 @@ export function Calendario() {
   }
 
   // Gere os próximos 10 anos a partir do ano atual
-  const currentYear = new Date().getFullYear();
-  const years = Array.from({ length: 10 }, (_, i) => currentYear + i);
+  const currentYear = new Date().getFullYear()
+  const years = Array.from({ length: 10 }, (_, i) => currentYear + i)
 
   return (
-    <div className="  mx-auto my-8 w-[335px] max-w-md rounded-lg border bg-white p-4 shadow-md">
+    <div className="mx-auto my-8 w-[335px] max-w-md rounded-lg border bg-white p-4 shadow-md">
       <div className="mb-4 flex justify-between">
         <div className="gap flex">
           <select
@@ -153,7 +174,7 @@ export function Calendario() {
                   : calendarDay.isEnd
                   ? 'rounded bg-violet-700 text-white'
                   : ''
-                : 'opacity-0'
+                : 'opacity-50' // Opacidade reduzida para dias fora do mês
             }`}
             onClick={() => handleDayClick(calendarDay.day)}
           >

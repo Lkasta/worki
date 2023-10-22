@@ -67,23 +67,23 @@ export default function Desk() {
                 </div>
                 <div className="flex items-center gap-2 font-semibold">
                   <CarSimple size={20} weight="bold" />
-                  <p>Cozinha</p>
+                  <p>Estacionamento</p>
                 </div>
                 <div className="flex items-center gap-2 font-semibold">
                   <Monitor size={20} weight="bold" />
-                  <p>Cozinha</p>
+                  <p>Monitor nas Mesas</p>
                 </div>
                 <div className="flex items-center gap-2 font-semibold">
                   <WifiHigh size={20} weight="bold" />
-                  <p>Cozinha</p>
+                  <p>Wifi</p>
                 </div>
                 <div className="flex items-center gap-2 font-semibold">
                   <Coffee size={20} weight="bold" />
-                  <p>Cozinha</p>
+                  <p>Café</p>
                 </div>
                 <div className="flex items-center gap-2 font-semibold">
                   <Thermometer size={20} weight="bold" />
-                  <p>Cozinha</p>
+                  <p>Ambiente Climatizado</p>
                 </div>
               </div>
               <div className="h-[1px] w-full bg-zinc-300" />
