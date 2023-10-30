@@ -11,12 +11,11 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method === 'POST') {
-    const { username, password } = req.body
-
+    const { email, password } = req.body
     try {
       const user = await prisma.user.findUnique({
         where: {
-          username,
+          email,
         },
       })
 
@@ -28,10 +27,12 @@ export default async function handler(
         return res.status(401).json({ message: 'Credenciais inválidas' })
       }
 
-      // Gere um token JWT
-      const token = jwt.sign({ userId: user.id }, 'segredo_super_secreto', {
-        expiresIn: '1h',
-      })
+      const token = jwt.sign(
+        {
+          userId: user.id,
+        },
+        'nextauth.token',
+      )
 
       res.status(200).json({ token })
     } catch (error) {

@@ -1,3 +1,4 @@
+import { AuthProvider } from '@/contexts/AuthContext'
 import type { Metadata } from 'next'
 import { Inter, Roboto_Flex as Roboto } from 'next/font/google'
 import './globals.css'
@@ -20,10 +21,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className="font">
-      <body className={`${roboto.className} grid min-h-screen text-zinc-700`}>
-        {children}
-      </body>
-    </html>
+    <AuthProvider>
+      <html lang="en" className="font">
+        <body className={`${roboto.className} grid min-h-screen text-zinc-700`}>
+          {children}
+        </body>
+      </html>
+    </AuthProvider>
   )
 }
