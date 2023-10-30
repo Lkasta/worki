@@ -2,9 +2,9 @@
 
 import { useState } from 'react'
 import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'; // Importe os estilos padrão da biblioteca
+import 'react-datepicker/dist/react-datepicker.css' // Importe os estilos padrão da biblioteca
 
-import 'react-datepicker/dist/react-datepicker-cssmodules.css'; // Importe os estilos CSS-modules para personalização
+import 'react-datepicker/dist/react-datepicker-cssmodules.css' // Importe os estilos CSS-modules para personalização
 
 export function Calendario() {
   const [startDate, setStartDate] = useState(null)

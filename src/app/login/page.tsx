@@ -4,11 +4,13 @@ import { useContext, useState } from 'react'
 import { Input } from '../components/Input'
 
 export default function Login() {
+  const [nome, setNome] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [showWarning, setShowWarning] = useState(false) // Estado para controlar a visibilidade do aviso
+  const [showWarning, setShowWarning] = useState(false)
+  const [isLoggingIn, setIsLoggingIn] = useState(true) // Adiciona um estado para controlar a tela
 
-  const { signIn, isError } = useContext(AuthContext) // Acesse a função de autenticação
+  const { signIn, isError } = useContext(AuthContext)
 
   const handleSignIn = () => {
     if (!email || !password) {
@@ -17,6 +19,15 @@ export default function Login() {
       setShowWarning(false)
       signIn({ email, password })
     }
+  }
+
+  const handleLogin = () => {
+    setShowWarning(true)
+  }
+
+  const handleToggleScreen = () => {
+    setIsLoggingIn(!isLoggingIn) // Alterna entre as telas de login e cadastro
+    setShowWarning(false) // Limpa o aviso ao trocar de tela
   }
 
   return (
@@ -32,39 +43,99 @@ export default function Login() {
             </p>
           </div>
 
-          <div className="flex flex-col gap-6">
-            <div className="">
-              <Input
-                name="email"
-                type="email"
-                label="E-mail"
-                placeholder="name@example.com"
-                value={email} // Passa o valor do estado email para o campo de entrada
-                onChange={(value) => setEmail(value)} // Atualiza o estado email quando o valor muda
-              />
-            </div>
-            <div className="input">
-              <Input
-                name="password"
-                type="password"
-                label="Senha"
-                placeholder="•••••••••••••"
-                value={password} // Passa o valor do estado password para o campo de entrada
-                onChange={(value) => setPassword(value)} // Atualiza o estado password quando o valor muda
-              />
-            </div>
+          <div className="flex flex-col gap-2.5">
+            {isLoggingIn ? ( // Verifica se está na tela de login
+              <>
+                <div className="">
+                  <Input
+                    name="email"
+                    type="email"
+                    label="E-mail"
+                    placeholder="name@example.com"
+                    value={email}
+                    onChange={(value) => setEmail(value)}
+                  />
+                </div>
+                <div className="input">
+                  <Input
+                    name="password"
+                    type="password"
+                    label="Senha"
+                    placeholder="•••••••••••••"
+                    value={password}
+                    onChange={(value) => setPassword(value)}
+                  />
+                </div>
 
-            <button
-              className="hover-bg-violet-500 rounded-lg bg-violet-600 px-4 py-2 font-semibold text-zinc-50 shadow-sm"
-              onClick={handleSignIn}
-            >
-              Entrar
-            </button>
+                <button
+                  className="hover-bg-violet-500 rounded-lg bg-violet-600 px-4 py-2 font-semibold text-zinc-50 shadow-sm"
+                  onClick={handleSignIn}
+                >
+                  Entrar
+                </button>
 
-            {showWarning && (
-              <div className="text-red-500">
-                Preencha o e-mail e a senha antes de enviar.
-              </div>
+                {showWarning && (
+                  <div className="text-red-500">
+                    Preencha o e-mail e a senha antes de enviar.
+                  </div>
+                )}
+              </>
+            ) : (
+              <>
+                <div className="">
+                  <Input
+                    name="nome"
+                    type="text"
+                    label="Nome"
+                    placeholder="Japodih Almosah"
+                  />
+                </div>
+                <div className="">
+                  <Input
+                    name="cpf"
+                    type="text"
+                    label="CPF"
+                    placeholder="111.222.333-44"
+                  />
+                </div>
+                <div className="">
+                  <Input
+                    name="email"
+                    type="email"
+                    label="E-mail"
+                    placeholder="name@example.com"
+                  />
+                </div>
+                <div className="">
+                  <Input
+                    name="password"
+                    type="password"
+                    label="Senha"
+                    placeholder="•••••••••••••"
+                  />
+                </div>
+                <div className="input">
+                  <Input
+                    name="password"
+                    type="password"
+                    label="Senha"
+                    placeholder="•••••••••••••"
+                  />
+                </div>
+
+                <button
+                  className="hover-bg-violet-500 rounded-lg bg-violet-600 px-4 py-2 font-semibold text-zinc-50 shadow-sm"
+                  onClick={handleSignIn}
+                >
+                  Entrar
+                </button>
+
+                {showWarning && (
+                  <div className="text-red-500">
+                    Preencha o e-mail e a senha antes de enviar.
+                  </div>
+                )}
+              </>
             )}
 
             {isError && (
@@ -72,6 +143,14 @@ export default function Login() {
                 Credenciais inválidas. Por favor, verifique seu e-mail e senha.
               </div>
             )}
+
+            <button
+              className="cursor-pointer text-blue-500"
+              onClick={handleToggleScreen}
+            >
+              {isLoggingIn ? 'Cadastrar' : 'Fazer Login'}
+              {/* Alterna entre os textos do botão */}
+            </button>
           </div>
         </div>
       </div>
