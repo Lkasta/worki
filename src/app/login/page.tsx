@@ -1,35 +1,21 @@
-import { useState } from 'react'
+'use client'
+import { AuthContext } from '@/contexts/AuthContext'
+import { useContext, useState } from 'react'
 import { Input } from '../components/Input'
 
 export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [showWarning, setShowWarning] = useState(false) // Estado para controlar a visibilidade do aviso
 
-  const handleLogin = async () => {
-    try {
-      const response = await fetch('/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username: email, password }),
-      })
+  const { signIn, isError } = useContext(AuthContext) // Acesse a função de autenticação
 
-      if (response.ok) {
-        // Se a autenticação for bem-sucedida, você pode obter o token da resposta
-        const data = await response.json()
-        const token = data.token
-
-        // Armazene o token no armazenamento local
-        localStorage.setItem('token', token)
-
-        // Redirecione o usuário para a página protegida ou realize outra ação apropriada
-      } else {
-        // Trate o erro de autenticação, como exibir uma mensagem de erro para o usuário
-      }
-    } catch (error) {
-      // Trate os erros de rede ou outros erros
-      console.error(error)
+  const handleSignIn = () => {
+    if (!email || !password) {
+      setShowWarning(true)
+    } else {
+      setShowWarning(false)
+      signIn({ email, password })
     }
   }
 
@@ -53,20 +39,39 @@ export default function Login() {
                 type="email"
                 label="E-mail"
                 placeholder="name@example.com"
+                value={email} // Passa o valor do estado email para o campo de entrada
+                onChange={(value) => setEmail(value)} // Atualiza o estado email quando o valor muda
               />
             </div>
-            <div className="input ">
+            <div className="input">
               <Input
                 name="password"
                 type="password"
                 label="Senha"
                 placeholder="•••••••••••••"
+                value={password} // Passa o valor do estado password para o campo de entrada
+                onChange={(value) => setPassword(value)} // Atualiza o estado password quando o valor muda
               />
             </div>
 
-            <button className="rounded-lg bg-violet-600 px-4 py-2 font-semibold text-zinc-50 shadow-sm hover:bg-violet-500">
+            <button
+              className="hover-bg-violet-500 rounded-lg bg-violet-600 px-4 py-2 font-semibold text-zinc-50 shadow-sm"
+              onClick={handleSignIn}
+            >
               Entrar
             </button>
+
+            {showWarning && (
+              <div className="text-red-500">
+                Preencha o e-mail e a senha antes de enviar.
+              </div>
+            )}
+
+            {isError && (
+              <div className="text-red-500">
+                Credenciais inválidas. Por favor, verifique seu e-mail e senha.
+              </div>
+            )}
           </div>
         </div>
       </div>

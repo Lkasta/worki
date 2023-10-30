@@ -1,10 +1,13 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { AuthContext } from '@/contexts/AuthContext'
+import { useContext, useEffect, useState } from 'react'
 import { CardDesk } from '../components/CardDesk'
 import { Input } from '../components/Input'
 import { Header } from '../header/Header'
 
 export default function Home() {
+  const { user } = useContext(AuthContext)
+
   interface Room {
     id: number
     description: string
@@ -31,7 +34,7 @@ export default function Home() {
       <div className="flex flex-col items-center justify-center">
         <div className="flex h-52 w-full items-center justify-center bg-violet-600">
           <h1 className="text-5xl font-bold text-white">
-            O mais próximo para você...
+            Olá {user?.username}! O mais próximo para você...
           </h1>
         </div>
         <div className="elemento relative top-1/2 flex w-app-lg translate-y-[-50%] gap-6 rounded-lg border border-gray-300 bg-white p-6 shadow">

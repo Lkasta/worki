@@ -14,6 +14,9 @@ export default function NovoCadastro() {
               type="text"
               placeholder="Novo Cadastro"
               name="novoCadastro"
+              onChange={function (value: string): void {
+                throw new Error('Function not implemented.')
+              }}
             />
           </div>
           <div className="">
@@ -23,6 +26,9 @@ export default function NovoCadastro() {
               placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
               name="novoCadastro"
               textArea={true}
+              onChange={function (value: string): void {
+                throw new Error('Function not implemented.')
+              }}
             />
           </div>
           <div className="h-[1px] w-full bg-zinc-300" />

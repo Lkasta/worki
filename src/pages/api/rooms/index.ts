@@ -13,7 +13,6 @@ export default async function handler(
     return res.status(200).json({
       data: rooms,
     })
-    console.log('chegou aqui')
   } else if (method === 'POST') {
     const { startDate, endDate } = req.body
   }
