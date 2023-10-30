@@ -1,7 +1,17 @@
+'use client'
+import { ForkKnife } from '@phosphor-icons/react'
+import { useState } from 'react'
 import { Input } from '../components/Input'
 import { Header } from '../header/Header'
 
 export default function NovoCadastro() {
+  function CustomCheckbox() {
+    const [checked, setChecked] = useState(false)
+
+    const toggleCheckbox = () => {
+      setChecked(!checked)
+    }
+  }
   return (
     <div>
       <Header />
@@ -28,6 +38,50 @@ export default function NovoCadastro() {
           <div className="h-[1px] w-full bg-zinc-300" />
           <div className="">
             <h1 className="text-2xl font-medium">Localização</h1>
+          </div>
+          <div className="grid grid-cols-3 gap-5">
+            <Input
+              type="text"
+              name="novoCadastro"
+              placeholder="CEP"
+              label="CEP"
+            />
+            <Input
+              type="text"
+              name="novoCadastro"
+              placeholder="Cidade"
+              label="Cidade"
+            />
+            <Input
+              type="text"
+              name="novoCadastro"
+              placeholder="Bairro"
+              label="Bairro"
+            />
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <Input
+              type="text"
+              name="novoCadastro"
+              placeholder="Endereço"
+              label="Endereço"
+            />
+            <Input
+              type="text"
+              name="novoCadastro"
+              placeholder="Complemento"
+              label="Complemento"
+            />
+          </div>
+          <div className="h-[1px] w-full bg-zinc-300" />
+          <div className="">
+            <h1 className="text-2xl font-medium">O que o ambiente ofereçe</h1>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="flex w-min items-center gap-2">
+              <ForkKnife size={20} weight="bold" />
+              <p>Cozinha</p>
+            </div>
           </div>
         </div>
       </div>

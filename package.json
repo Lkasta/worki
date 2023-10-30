@@ -16,6 +16,7 @@
     "jsonwebtoken": "^9.0.2",
     "next": "^13.5.6",
     "react": "latest",
+    "react-datepicker": "^4.21.0",
     "react-dom": "latest",
     "react-hook-form": "^7.47.0"
   },
