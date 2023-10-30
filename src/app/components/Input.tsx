@@ -9,7 +9,8 @@ export interface InputProps {
 }
 
 export function Input({
-  onChange,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  onChange = () => {},
   placeholder,
   label,
   type,
