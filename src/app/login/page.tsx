@@ -4,7 +4,6 @@ import { useContext, useState } from 'react'
 import { Input } from '../components/Input'
 
 export default function Login() {
-  const [nome, setNome] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showWarning, setShowWarning] = useState(false)
@@ -44,6 +43,7 @@ export default function Login() {
           </div>
 
           <div className="flex flex-col gap-2.5">
+            {}
             {isLoggingIn ? ( // Verifica se está na tela de login
               <>
                 <div className="">
@@ -67,18 +67,18 @@ export default function Login() {
                   />
                 </div>
 
+                {showWarning && (
+                  <div className="text-red-500">
+                    Preencha o e-mail e a senha antes de enviar.
+                  </div>
+                )}
+
                 <button
                   className="hover-bg-violet-500 rounded-lg bg-violet-600 px-4 py-2 font-semibold text-zinc-50 shadow-sm"
                   onClick={handleSignIn}
                 >
                   Entrar
                 </button>
-
-                {showWarning && (
-                  <div className="text-red-500">
-                    Preencha o e-mail e a senha antes de enviar.
-                  </div>
-                )}
               </>
             ) : (
               <>
@@ -127,14 +127,8 @@ export default function Login() {
                   className="hover-bg-violet-500 rounded-lg bg-violet-600 px-4 py-2 font-semibold text-zinc-50 shadow-sm"
                   onClick={handleSignIn}
                 >
-                  Entrar
+                  Finalizar Cadastro
                 </button>
-
-                {showWarning && (
-                  <div className="text-red-500">
-                    Preencha o e-mail e a senha antes de enviar.
-                  </div>
-                )}
               </>
             )}
 
@@ -143,14 +137,34 @@ export default function Login() {
                 Credenciais inválidas. Por favor, verifique seu e-mail e senha.
               </div>
             )}
+            {isLoggingIn ? (
+              <div className="flex justify-between font-semibold">
+                <button>
+                  <p className="text-zinc-700 hover:underline">
+                    Esqueceu a senha?
+                  </p>
+                </button>
+                <button onClick={handleToggleScreen}>
+                  <p className="text-violet-700 hover:underline">Criar conta</p>
+                </button>
+              </div>
+            ) : (
+              <div className="flex justify-between font-semibold">
+                <button>
+                  <p className="text-zinc-700 hover:underline">
+                    Esqueceu a senha?
+                  </p>
+                </button>
+                <button onClick={handleToggleScreen}>
+                  <p className="text-violet-700 hover:underline">Fazer Login</p>
+                </button>
+              </div>
+            )}
 
             <button
               className="cursor-pointer text-blue-500"
               onClick={handleToggleScreen}
-            >
-              {isLoggingIn ? 'Cadastrar' : 'Fazer Login'}
-              {/* Alterna entre os textos do botão */}
-            </button>
+            ></button>
           </div>
         </div>
       </div>

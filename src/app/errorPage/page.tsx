@@ -10,7 +10,7 @@ export default function ErrorPage() {
           A página que você está procurando não existe.
         </p>
         <a href="/home">
-          <button className="mt-4 rounded-md bg-violet-700 px-3 py-2 font-bold text-white hover:bg-violet-500 shadow">
+          <button className="mt-4 rounded-md bg-violet-700 px-3 py-2 font-bold text-white shadow hover:bg-violet-500">
             Voltar ao Inicio
           </button>
         </a>
