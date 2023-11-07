@@ -1,5 +1,4 @@
 'use client'
-import { Calendario } from '../components/Calendario'
 import { Header } from '../header/Header'
 
 import {
@@ -8,11 +7,18 @@ import {
   ForkKnife,
   MapPin,
   Monitor,
+  SketchLogo,
   Thermometer,
   WifiHigh,
 } from '@phosphor-icons/react'
+import { useState } from 'react'
+
+type ValuePiece = Date | null
+
+type Value = ValuePiece | [ValuePiece, ValuePiece]
 
 export default function Desk() {
+  const [value, onChange] = useState<Value>(new Date())
   return (
     <div className="">
       <Header />
@@ -53,14 +59,14 @@ export default function Desk() {
           </div>
           <div className="flex gap-4">
             <div className="w-2/3">
-              <h1 className="py-4 text-2xl font-medium">
+              <h1 className="pb-4 text-2xl font-medium">
                 Mesa para trabalho: Hospedado por CoworkingInPato
               </h1>
               <div className="h-[1px] w-full bg-zinc-300" />
-              <h1 className="pb-4 text-xl font-bold font-medium">
+              <h1 className="mt-4 pb-4 text-xl font-bold font-medium ">
                 O que esse lugar oferece:
               </h1>
-              <div className="grid grid-cols-2 gap-3 pb-3">
+              <div className="grid grid-cols-2 gap-2 pb-4">
                 <div className="flex w-min items-center gap-2 font-semibold">
                   <ForkKnife size={20} weight="bold" />
                   <p>Cozinha</p>
@@ -114,8 +120,32 @@ export default function Desk() {
                 aria-controls="none"
               ></iframe>
             </div>
-            <div className="w-auto">
-              <Calendario />
+            <div className="flex w-1/3 flex-col gap-4">
+              <div className="rounded-md border p-4">
+                <div className="flex gap-4">
+                  <div className="flex h-full items-center">
+                    <SketchLogo
+                      size={32}
+                      className="text-4xl text-violet-700"
+                    />
+                  </div>
+
+                  <p className="font-semibold">
+                    Pera ai, esse ambiente é incluso no plano{' '}
+                    <span className="text-violet-700">Premium!</span> Aproveite
+                    as vantagens exclusivas com esse plano.
+                  </p>
+                </div>
+                <button className="mt-4 w-full rounded-md bg-violet-700 px-3 py-1.5 font-semibold text-white shadow hover:bg-violet-500">
+                  Reservar Agora
+                </button>
+              </div>
+              <div className="rounded-md border p-4">
+                <input type="date" className="w-full text-gray-700" />
+                <button className="mt-4 w-full rounded-md bg-violet-700 px-3 py-1.5 font-semibold text-white shadow hover:bg-violet-500">
+                  Reservar Agora
+                </button>
+              </div>
             </div>
           </div>
         </div>
