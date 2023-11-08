@@ -1,6 +1,10 @@
+// pages/desk/[id].tsx
 'use client'
-import { Header } from '../header/Header'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import 'tailwindcss/tailwind.css'
 
+import { Header } from '@/app/header/Header'
 import {
   CarSimple,
   Coffee,
@@ -11,25 +15,46 @@ import {
   Thermometer,
   WifiHigh,
 } from '@phosphor-icons/react'
-import { useState } from 'react'
 
 type ValuePiece = Date | null
 
 type Value = ValuePiece | [ValuePiece, ValuePiece]
 
+interface RoomData {
+  description: string
+  city: string
+  rating: string
+}
+
 export default function Desk() {
-  const [value, onChange] = useState<Value>(new Date())
+  const router = useRouter()
+  const { id } = router.query
+
+  const [roomData, setRoomData] = useState<RoomData | null>(null)
+
+  useEffect(() => {
+    if (id) {
+      console.log('entrou aqui')
+      fetch(`/api/rooms/${id}`)
+        .then((response) => response.json())
+        .then((data: RoomData) => {
+          setRoomData(data)
+        })
+    }
+  }, [id])
+
   return (
-    <div className="">
+    // <ProtectedRoute>
+    <div>
       <Header />
       <div className="flex flex-col items-center justify-center">
         <div className="flex w-app-lg flex-col gap-4">
-          <h1 className="pt-8 text-3xl font-bold ">CoworkingInPato</h1>
+          <h1 className="pt-8 text-3xl font-bold "></h1>
           <div className="mt-[-10px] flex items-center gap-2">
-            <p>4,6</p>
+            <p>{roomData?.rating}</p>
             <div className="h-[3px] w-[3px] rounded-full bg-zinc-700"></div>
-            <p>Centro</p>
-            <p>Pato Branco</p>
+            <p>{roomData?.city}</p>
+            <p>{roomData?.description}</p>
           </div>
           <div className="flex">
             {/* Imagem 1 */}
@@ -151,5 +176,6 @@ export default function Desk() {
         </div>
       </div>
     </div>
+    // </ProtectedRoute>
   )
 }

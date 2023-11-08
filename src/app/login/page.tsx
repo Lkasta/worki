@@ -5,10 +5,16 @@ import { Input } from '../components/Input'
 
 export default function Login() {
   const [email, setEmail] = useState('')
+  const [emailCadastro, setEmailCadastro] = useState('')
   const [password, setPassword] = useState('')
+  const [nome, setNome] = useState('')
+  const [CPF, setCPF] = useState('')
+  const [senha, setSenha] = useState('')
+  const [confirmaSenha, setConfirmaSenha] = useState('')
   const [showWarning, setShowWarning] = useState(false)
-  const [isLoggingIn, setIsLoggingIn] = useState(true) // Adiciona um estado para controlar a tela
-
+  const [showWarningCad, setShowWarningCad] = useState(false)
+  const [warningEmailCpf, setWarningEmailCpf] = useState(false)
+  const [isLoggingIn, setIsLoggingIn] = useState(true)
   const { signIn, isError } = useContext(AuthContext)
 
   const handleSignIn = () => {
@@ -20,13 +26,43 @@ export default function Login() {
     }
   }
 
-  const handleLogin = () => {
-    setShowWarning(true)
+  const handleCreateUser = async () => {
+    if (!nome || !emailCadastro || !senha || !confirmaSenha || !CPF) {
+      setShowWarningCad(true) // Define o aviso para campos em branco
+      return
+    }
+
+    if (senha !== confirmaSenha) {
+      setShowWarningCad(true)
+      return
+    }
+
+    try {
+      const response = await fetch('/api/createUser', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ nome, email: emailCadastro, senha, CPF }),
+      })
+
+      if (response.ok) {
+        // O usuário foi criado com sucesso, você pode lidar com a resposta aqui, se necessário
+        console.log('Usuário criado com sucesso!')
+      } else {
+        // Algo deu errado na criação do usuário
+        console.error('Erro ao criar usuário')
+        setShowWarningCad(false)
+        setWarningEmailCpf(true)
+      }
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   const handleToggleScreen = () => {
-    setIsLoggingIn(!isLoggingIn) // Alterna entre as telas de login e cadastro
-    setShowWarning(false) // Limpa o aviso ao trocar de tela
+    setIsLoggingIn(!isLoggingIn)
+    setShowWarning(false)
   }
 
   return (
@@ -44,7 +80,7 @@ export default function Login() {
 
           <div className="flex flex-col gap-2.5">
             {}
-            {isLoggingIn ? ( // Verifica se está na tela de login
+            {isLoggingIn ? (
               <>
                 <div className="">
                   <Input
@@ -88,6 +124,8 @@ export default function Login() {
                     type="text"
                     label="Nome"
                     placeholder="Japodih Almosah"
+                    value={nome}
+                    onChange={(value) => setNome(value)}
                   />
                 </div>
                 <div className="">
@@ -96,6 +134,8 @@ export default function Login() {
                     type="text"
                     label="CPF"
                     placeholder="111.222.333-44"
+                    value={CPF}
+                    onChange={(value) => setCPF(value)}
                   />
                 </div>
                 <div className="">
@@ -104,6 +144,8 @@ export default function Login() {
                     type="email"
                     label="E-mail"
                     placeholder="name@example.com"
+                    value={emailCadastro}
+                    onChange={(value) => setEmailCadastro(value)}
                   />
                 </div>
                 <div className="">
@@ -112,6 +154,8 @@ export default function Login() {
                     type="password"
                     label="Senha"
                     placeholder="•••••••••••••"
+                    value={senha}
+                    onChange={(value) => setSenha(value)}
                   />
                 </div>
                 <div className="input">
@@ -120,15 +164,29 @@ export default function Login() {
                     type="password"
                     label="Senha"
                     placeholder="•••••••••••••"
+                    value={confirmaSenha}
+                    onChange={(value) => setConfirmaSenha(value)}
                   />
                 </div>
 
                 <button
                   className="hover-bg-violet-500 rounded-lg bg-violet-600 px-4 py-2 font-semibold text-zinc-50 shadow-sm"
-                  onClick={handleSignIn}
+                  onClick={handleCreateUser}
                 >
                   Finalizar Cadastro
                 </button>
+                {showWarningCad && (
+                  <div className="text-red-500">
+                    Preencha todos os campos antes de enviar e certifique-se que
+                    as senhas estão iguais.
+                  </div>
+                )}
+                {warningEmailCpf && (
+                  <div className="text-red-500">
+                    Não foi possível criar o usuário, verifique se o seu e-mail
+                    já está cadastrado na plataforma.
+                  </div>
+                )}
               </>
             )}
 

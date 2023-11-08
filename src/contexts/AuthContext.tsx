@@ -1,7 +1,7 @@
 'use client'
 import { User } from '@prisma/client'
 import { useRouter } from 'next/navigation'
-import { parseCookies, setCookie } from 'nookies'
+import { setCookie } from 'nookies'
 import { ReactNode, createContext, useEffect, useState } from 'react'
 
 type SignInData = {
@@ -21,13 +21,14 @@ export const AuthContext = createContext({} as AuthContextType)
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isError, setIsError] = useState(false)
   const [user, setUser] = useState<User | null>(null)
-  const isAuthenticated = !!user
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const { parseCookies, destroyCookie } = require('nookies') // Importe destroyCookie
+
   const router = useRouter()
 
   useEffect(() => {
     const { 'nextauth.token': token } = parseCookies()
-
-    console.log(token)
 
     if (token) {
       fetchUserInformation(token)
@@ -35,7 +36,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, [])
 
   const signIn = async ({ email, password }: SignInData) => {
-    console.log('aqui foi')
     try {
       const response = await fetch('/api/login', {
         method: 'POST',
@@ -53,14 +53,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           maxAge: 60 * 60 * 1,
         })
         router.push('/home')
+        fetchUserInformation(token)
       } else if (response.status === 401) {
         const erroData = await response.json()
-        console.error(erroData.erro)
+        console.log(erroData)
         setIsError(true)
       }
     } catch (error) {
       console.error(error)
     }
+  }
+
+  const signOut = () => {
+    destroyCookie(null, 'nextauth.token')
+
+    setUser(null)
+    setIsAuthenticated(false)
+    router.push('/login')
   }
 
   const fetchUserInformation = async (token: string) => {
@@ -75,7 +84,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (response.ok) {
         const userData = await response.json()
         setUser(userData)
-        console.log(userData)
+        setIsAuthenticated(true)
       } else {
         setIsError(true)
         setUser(null)

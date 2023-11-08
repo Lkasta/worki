@@ -6,8 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "postgresql" // Use "postgresql" como o provider para PostgreSQL
+  url      = env("DATABASE_URL") // Pode especificar a URL de conexão do banco de dados PostgreSQL
 }
 
 model Room {
@@ -20,28 +20,9 @@ model Room {
 }
 
 model User {
-  id       Int       @id @default(autoincrement())
-  username String    @unique
-  email    String    @unique
+  id       Int    @id @default(autoincrement())
+  username String 
+  email    String @unique
   password String
-  // Outros campos compartilhados
-  // ...
-  Provider Provider?
-  Client   Client?
-}
-
-model Provider {
-  id     Int  @id @default(autoincrement())
-  userId Int  @unique
-  user   User @relation(fields: [userId], references: [id])
-  // Outros campos específicos de fornecedores
-  // ...
-}
-
-model Client {
-  id     Int  @id @default(autoincrement())
-  userId Int  @unique
-  user   User @relation(fields: [userId], references: [id])
-  // Outros campos específicos de clientes
-  // ...
+  cpf      String 
 }

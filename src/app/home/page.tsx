@@ -3,6 +3,7 @@ import { AuthContext } from '@/contexts/AuthContext'
 import { useContext, useEffect, useState } from 'react'
 import { CardDesk } from '../components/CardDesk'
 import { Input } from '../components/Input'
+import ProtectedRoute from '../components/ProtectedRoute'
 import { Header } from '../header/Header'
 
 export default function Home() {
@@ -17,53 +18,69 @@ export default function Home() {
     rating: number
   }
 
-  const [roomData, setRoomData] = useState<Room[]>([]) // Inicialize o estado para os dados dos quartos
+  const [roomData, setRoomData] = useState<Room[]>([])
+
+  function getFirstName(fullName: string) {
+    const nameParts = fullName.split(' ')
+    const firstName = nameParts[0]
+
+    return firstName
+  }
 
   useEffect(() => {
-    // Faça a solicitação para buscar os dados dos quartos
     fetch('/api/rooms')
       .then((response) => response.json())
       .then((data) => {
-        setRoomData(data.data) // Atualize o estado com os dados dos quartos
+        setRoomData(data.data)
       })
   }, [])
 
   return (
-    <div>
-      <Header />
-      <div className="flex flex-col items-center justify-center">
-        <div className="flex h-52 w-full items-center justify-center bg-violet-600">
-          <h1 className="text-5xl font-bold text-white">
-            Olá {user?.username}! O mais próximo para você...
-          </h1>
-        </div>
-        <div className="elemento relative top-1/2 flex w-app-lg translate-y-[-50%] gap-6 rounded-lg border border-gray-300 bg-white p-6 shadow">
-          <Input name="search" type="text" placeholder="Pesquise por nome" />
-          <Input name="search" type="text" placeholder="Selecione uma cidade" />
-
-          <button className="w-2/6 rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold uppercase text-zinc-50 shadow-sm hover:bg-violet-500">
-            Buscar Agora
-          </button>
-        </div>
-
+    <ProtectedRoute>
+      <div>
+        <Header />
         <div className="flex flex-col items-center justify-center">
-          <div className="w-app-lg">
-            <h1 className="mb-2 text-2xl font-bold">Resultados</h1>
-            <div className="flex justify-between">
-              {roomData.map((room) => (
-                <CardDesk
-                  key={room.id} // Lembre-se de fornecer uma chave única
-                  description={room.description}
-                  city={room.city}
-                  district={room.district}
-                  price={room.price}
-                  rating={room.rating}
-                />
-              ))}
+          <div className="flex h-52 w-full items-center justify-center bg-violet-600">
+            {user?.username && (
+              <h1 className="text-center text-5xl font-bold text-white">
+                <p>Olá {getFirstName(user.username)}!</p> Os mais próximo para
+                você...
+              </h1>
+            )}
+          </div>
+          <div className="elemento relative top-1/2 flex w-app-lg translate-y-[-50%] gap-6 rounded-lg border border-gray-300 bg-white p-6 shadow">
+            <Input name="search" type="text" placeholder="Pesquise por nome" />
+            <Input
+              name="search"
+              type="text"
+              placeholder="Selecione uma cidade"
+            />
+
+            <button className="w-2/6 rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold uppercase text-zinc-50 shadow-sm hover:bg-violet-500">
+              Buscar Agora
+            </button>
+          </div>
+
+          <div className="flex flex-col items-center justify-center">
+            <div className="w-app-lg">
+              <h1 className="mb-2 text-2xl font-bold">Resultados</h1>
+              <div className="ml flex">
+                {roomData.map((room) => (
+                  <CardDesk
+                    key={room.id} // Lembre-se de fornecer uma chave única
+                    description={room.description}
+                    city={room.city}
+                    district={room.district}
+                    price={room.price}
+                    rating={room.rating}
+                    id={room.id}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </ProtectedRoute>
   )
 }

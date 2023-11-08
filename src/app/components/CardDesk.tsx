@@ -1,5 +1,6 @@
 'use client'
 import { BookmarkSimple, Star } from '@phosphor-icons/react'
+import { useRouter } from 'next/navigation'
 
 interface CardDeskProps {
   description: string
@@ -7,6 +8,7 @@ interface CardDeskProps {
   district: string
   price: number
   rating: number
+  id: number // Adicione o ID como uma propriedade
 }
 
 export function CardDesk({
@@ -15,9 +17,20 @@ export function CardDesk({
   district,
   price,
   rating,
+  id, // Adicione o ID como uma propriedade
 }: CardDeskProps) {
+  const router = useRouter()
+
+  // Direcione o usuário para a página "desk" com o ID do card
+  const handleClickCard = () => {
+    router.push(`/desk/${id}`) // Direcione o usuário para a página "desk" com o ID do card
+  }
+
   return (
-    <div className="relative rounded-lg border border-gray-300 p-2.5 shadow">
+    <div
+      className="relative ml-4 cursor-pointer rounded-lg border border-gray-300 p-2.5 shadow"
+      onClick={handleClickCard}
+    >
       <img
         src="https://www.deskcoworking.com.br/wp-content/uploads/2022/04/estacoes-de-trabalho-de-coworking-desk-coworking-2-e1652918932256.jpg"
         className="h-52 w-img-card-desk rounded-lg object-cover"
