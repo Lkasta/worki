@@ -11,14 +11,8 @@ import {
   Thermometer,
   WifiHigh,
 } from '@phosphor-icons/react'
-import { useState } from 'react'
-
-type ValuePiece = Date | null
-
-type Value = ValuePiece | [ValuePiece, ValuePiece]
 
 export default function Desk() {
-  const [value, onChange] = useState<Value>(new Date())
   return (
     <div className="">
       <Header />
@@ -63,7 +57,7 @@ export default function Desk() {
                 Mesa para trabalho: Hospedado por CoworkingInPato
               </h1>
               <div className="h-[1px] w-full bg-zinc-300" />
-              <h1 className="mt-4 pb-4 text-xl font-bold font-medium ">
+              <h1 className="mt-4 pb-4 text-xl font-bold">
                 O que esse lugar oferece:
               </h1>
               <div className="grid grid-cols-2 gap-2 pb-4">
@@ -93,7 +87,7 @@ export default function Desk() {
                 </div>
               </div>
               <div className="h-[1px] w-full bg-zinc-300" />
-              <h1 className="py-4 text-xl font-bold font-medium">Descrição</h1>
+              <h1 className="py-4 text-xl font-bold">Descrição</h1>
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
@@ -122,14 +116,13 @@ export default function Desk() {
             </div>
             <div className="flex w-1/3 flex-col gap-4">
               <div className="rounded-md border p-4">
-                <div className="flex gap-4">
-                  <div className="flex h-full items-center">
+                <div className="flex items-center justify-center gap-4">
+                  <div className="flex h-full">
                     <SketchLogo
                       size={32}
                       className="text-4xl text-violet-700"
                     />
                   </div>
-
                   <p className="font-semibold">
                     Pera ai, esse ambiente é incluso no plano{' '}
                     <span className="text-violet-700">Premium!</span> Aproveite
@@ -137,7 +130,7 @@ export default function Desk() {
                   </p>
                 </div>
                 <button className="mt-4 w-full rounded-md bg-violet-700 px-3 py-1.5 font-semibold text-white shadow hover:bg-violet-500">
-                  Reservar Agora
+                  Aproveite todas as vantagens!
                 </button>
               </div>
               <div className="rounded-md border p-4">
