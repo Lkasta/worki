@@ -23,6 +23,7 @@ export function CardDesk({
 
   // Direcione o usuário para a página "desk" com o ID do card
   const handleClickCard = () => {
+    console.log(id)
     router.push(`/desk/${id}`) // Direcione o usuário para a página "desk" com o ID do card
   }
 

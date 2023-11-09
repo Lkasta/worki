@@ -14,7 +14,7 @@ export default async function handler(
   try {
     const room = await prisma.room.findUnique({
       where: {
-        id: parseInt(id as string, 10), // Certifique-se de fazer a conversão apropriada
+        id_room: parseInt(id as string, 10), // Certifique-se de fazer a conversão apropriada
       },
     })
 

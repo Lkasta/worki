@@ -28,7 +28,7 @@ export default function Login() {
 
   const handleCreateUser = async () => {
     if (!nome || !emailCadastro || !senha || !confirmaSenha || !CPF) {
-      setShowWarningCad(true) // Define o aviso para campos em branco
+      setShowWarningCad(true)
       return
     }
 

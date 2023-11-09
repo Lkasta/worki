@@ -10,7 +10,7 @@ export default function Home() {
   const { user } = useContext(AuthContext)
 
   interface Room {
-    id: number
+    id_room: number
     description: string
     city: string
     district: string
@@ -67,13 +67,13 @@ export default function Home() {
               <div className="ml flex">
                 {roomData.map((room) => (
                   <CardDesk
-                    key={room.id} // Lembre-se de fornecer uma chave única
+                    key={room.id_room} // Lembre-se de fornecer uma chave única
                     description={room.description}
                     city={room.city}
                     district={room.district}
                     price={room.price}
                     rating={room.rating}
-                    id={room.id}
+                    id={room.id_room}
                   />
                 ))}
               </div>
