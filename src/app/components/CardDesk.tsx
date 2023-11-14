@@ -28,7 +28,7 @@ export function CardDesk({
 
   return (
     <div
-      className="relative ml-4 cursor-pointer rounded-lg border border-gray-300 p-2.5 shadow"
+      className="relative w-[183] cursor-pointer rounded-lg border border-gray-300 p-2.5 shadow"
       onClick={handleClickCard}
     >
       <img

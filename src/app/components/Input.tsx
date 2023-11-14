@@ -1,3 +1,4 @@
+import { IMaskInput } from 'react-imask'
 export interface InputProps {
   placeholder?: string
   label?: string
@@ -5,6 +6,7 @@ export interface InputProps {
   name: string
   textArea?: boolean
   value?: string
+  mask?: string
   onChange?: (value: string) => void
 }
 
@@ -17,6 +19,7 @@ export function Input({
   name,
   textArea = false,
   value,
+  mask,
 }: InputProps) {
   return (
     <div className="w-full rounded-lg font-medium">
@@ -36,13 +39,16 @@ export function Input({
         </div>
       ) : (
         <div className="w-full rounded-lg border border-zinc-300 px-4 py-2 shadow-sm">
-          <input
+          <IMaskInput
             type={type}
             name={name}
             placeholder={placeholder}
             value={value}
             className="placeholder:font-semiboldbold placeholder:focus: w-full text-zinc-700 placeholder:text-zinc-400 focus:outline-none"
-            onChange={(e) => onChange(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              onChange(e.target.value)
+            }
+            mask={mask}
           />
         </div>
       )}

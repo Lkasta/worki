@@ -1,10 +1,7 @@
-// pages/desk/[id].tsx
 'use client'
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import 'tailwindcss/tailwind.css'
+import { Footer } from '../components/Footer'
+import { Header } from '../header/Header'
 
-import { Header } from '@/app/header/Header'
 import {
   CarSimple,
   Coffee,
@@ -12,45 +9,25 @@ import {
   MapPin,
   Monitor,
   SketchLogo,
+  Star,
   Thermometer,
   WifiHigh,
 } from '@phosphor-icons/react'
 
-interface RoomData {
-  description: string
-  city: string
-  rating: string
-}
-
 export default function Desk() {
-  const router = useRouter()
-  const { id } = router.query
-
-  const [roomData, setRoomData] = useState<RoomData | null>(null)
-
-  useEffect(() => {
-    if (id) {
-      console.log('entrou aqui')
-      fetch(`/api/rooms/${id}`)
-        .then((response) => response.json())
-        .then((data: RoomData) => {
-          setRoomData(data)
-        })
-    }
-  }, [id])
-
   return (
-    // <ProtectedRoute>
-    <div>
+    <div className="">
       <Header />
       <div className="flex flex-col items-center justify-center">
         <div className="flex w-app-lg flex-col gap-4">
-          <h1 className="pt-8 text-3xl font-bold "></h1>
+          <h1 className="pt-8 text-3xl font-bold ">CoworkingInPato</h1>
           <div className="mt-[-10px] flex items-center gap-2">
-            <p>{roomData?.rating}</p>
+            <p>4,6</p>
+            <Star weight="fill" className="text-yellow-400" />
             <div className="h-[3px] w-[3px] rounded-full bg-zinc-700"></div>
-            <p>{roomData?.city}</p>
-            <p>{roomData?.description}</p>
+            <p>Centro</p>
+            <div className="h-[3px] w-[3px] rounded-full bg-zinc-700"></div>
+            <p>Pato Branco</p>
           </div>
           <div className="flex">
             {/* Imagem 1 */}
@@ -80,7 +57,7 @@ export default function Desk() {
           </div>
           <div className="flex gap-4">
             <div className="w-2/3">
-              <h1 className="pb-4 text-2xl font-medium">
+              <h1 className="pb-4 text-2xl font-bold">
                 Mesa para trabalho: Hospedado por CoworkingInPato
               </h1>
               <div className="h-[1px] w-full bg-zinc-300" />
@@ -152,8 +129,10 @@ export default function Desk() {
                   </div>
                   <p className="font-semibold">
                     Pera ai, esse ambiente é incluso no plano{' '}
-                    <span className="text-violet-700">Premium!</span> Aproveite
-                    as vantagens exclusivas com esse plano.
+                    <span className="text-violet-700">
+                      <span className="font-black">Premium!</span>
+                    </span>{' '}
+                    Aproveite as vantagens exclusivas com esse plano.
                   </p>
                 </div>
                 <button className="mt-4 w-full rounded-md bg-violet-700 px-3 py-1.5 font-semibold text-white shadow hover:bg-violet-500">
@@ -170,6 +149,7 @@ export default function Desk() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   )
 }

@@ -1,3 +1,5 @@
+import { Footer } from '../components/Footer'
+
 export default function ErrorPage() {
   return (
     <div className="flex h-full items-center justify-center">
@@ -15,6 +17,7 @@ export default function ErrorPage() {
           </button>
         </a>
       </div>
+      <Footer />
     </div>
   )
 }

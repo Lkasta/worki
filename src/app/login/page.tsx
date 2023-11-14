@@ -134,6 +134,7 @@ export default function Login() {
                     type="text"
                     label="CPF"
                     placeholder="111.222.333-44"
+                    mask="000.000.000-00"
                     value={CPF}
                     onChange={(value) => setCPF(value)}
                   />
@@ -222,7 +223,7 @@ export default function Login() {
             <button
               className="cursor-pointer text-blue-500"
               onClick={handleToggleScreen}
-            ></button>
+            />
           </div>
         </div>
       </div>

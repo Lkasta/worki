@@ -2,6 +2,7 @@
 import { AuthContext } from '@/contexts/AuthContext'
 import { useContext, useEffect, useState } from 'react'
 import { CardDesk } from '../components/CardDesk'
+import { Footer } from '../components/Footer'
 import { Input } from '../components/Input'
 import ProtectedRoute from '../components/ProtectedRoute'
 import { Header } from '../header/Header'
@@ -64,7 +65,7 @@ export default function Home() {
           <div className="flex flex-col items-center justify-center">
             <div className="w-app-lg">
               <h1 className="mb-2 text-2xl font-bold">Resultados</h1>
-              <div className="ml flex">
+              <div className="flex flex-wrap justify-between gap-4 ">
                 {roomData.map((room) => (
                   <CardDesk
                     key={room.id} // Lembre-se de fornecer uma chave única
@@ -80,6 +81,7 @@ export default function Home() {
             </div>
           </div>
         </div>
+        <Footer />
       </div>
     </ProtectedRoute>
   )
