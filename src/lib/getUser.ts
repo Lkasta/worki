@@ -7,7 +7,7 @@ export const getUserInfo = async (userId: number) => {
   try {
     const user = await prisma.user.findUnique({
       where: {
-        id: userId,
+        id_user: userId, // Alterado de id_user para id
       },
     })
 

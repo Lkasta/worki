@@ -9,7 +9,7 @@ export default async function handler(
   if (req.method === 'GET') {
     const token = req.cookies['nextauth.token']
 
-    console.log(token)
+    console.log('o token é:', token)
 
     if (!token) {
       return res.status(401).json({ error: 'Token not found' })

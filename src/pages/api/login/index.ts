@@ -29,7 +29,7 @@ export default async function handler(
 
       const token = jwt.sign(
         {
-          userId: user.id,
+          userId: user.id_user,
         },
         'nextauth.token',
       )

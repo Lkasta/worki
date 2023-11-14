@@ -52,7 +52,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setCookie(undefined, 'nextauth.token', token, {
           maxAge: 60 * 60 * 1,
         })
-        router.push('/home')
         fetchUserInformation(token)
       } else if (response.status === 401) {
         const erroData = await response.json()
@@ -85,13 +84,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         const userData = await response.json()
         setUser(userData)
         setIsAuthenticated(true)
+        router.push('/home')
       } else {
         setIsError(true)
         setUser(null)
+        console.log('caiu aqui no else')
       }
     } catch (error) {
       console.error(error)
       setIsError(true)
+      console.log('caiu no catch error')
     }
   }
 
