@@ -24,6 +24,7 @@ export default async function handler(
       }
 
       if (user.password !== password) {
+        console.log(password)
         return res.status(401).json({ message: 'Credenciais inválidas' })
       }
 

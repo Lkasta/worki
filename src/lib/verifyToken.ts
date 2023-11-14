@@ -6,7 +6,7 @@ export default function verifyToken(token: string, secretKey: string) {
     // Verifica e decodifica o token usando a chave secreta
     const decoded = jwt.verify(token, secretKey)
 
-    console.log('esse é o token descodificado', decoded)
+    console.log('decodificado', decoded)
 
     if (typeof decoded === 'object' && 'userId' in decoded) {
       return decoded.userId
