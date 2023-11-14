@@ -28,16 +28,19 @@ export function Header() {
               value="tab1"
               title="Home"
               isSelected={currentTab === 'tab1'}
+              destiny="/Home"
             />
             <NavItem
               value="tab2"
-              title="Minhas Reservas"
+              title="Histórico de Reservas"
               isSelected={currentTab === 'tab2'}
+              destiny="/RentHistory"
             />
             <NavItem
               value="tab3"
               title="Contato"
               isSelected={currentTab === 'tab3'}
+              destiny="/Home"
             />
           </Tabs.List>
         </Tabs.Root>
