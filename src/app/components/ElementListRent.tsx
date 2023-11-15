@@ -6,7 +6,7 @@ export function ElementListRent() {
   return (
     <div className="my-4 flex h-20 justify-between overflow-auto rounded-lg border border-zinc-200 pr-5">
       <div className="flex min-w-0 items-center gap-x-4">
-        <div className="h-full w-3 bg-purple-700" />
+        <div className="h-full w-2 bg-purple-700" />
         <div className="min-w-0 flex-auto">
           <p className="text-sm font-semibold leading-6 text-gray-900">
             Heisenberg

@@ -1,5 +1,6 @@
 import * as Tabs from '@radix-ui/react-tabs'
 import { motion } from 'framer-motion'
+import { useRouter } from 'next/navigation'
 
 export interface NavItemProps {
   title: string
@@ -14,8 +15,14 @@ export function NavItem({
   isSelected = false,
   destiny,
 }: NavItemProps) {
+  const router = useRouter()
+
+  const handleClickCard = () => {
+    router.push(`/${destiny}`) // Direcione o usuário para a página "desk" com o ID do card
+  }
+
   return (
-    <a href={destiny}>
+    <button onClick={handleClickCard}>
       <Tabs.Trigger
         value={value}
         className="group relative flex items-center justify-center"
@@ -30,6 +37,6 @@ export function NavItem({
           />
         )}
       </Tabs.Trigger>
-    </a>
+    </button>
   )
 }
