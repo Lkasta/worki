@@ -11,13 +11,14 @@ datasource db {
 }
 
 model Room {
-  id_room     Int           @id @default(autoincrement())
-  description String
-  city        String
-  district    String
-  price       Decimal // Use o tipo Decimal para valores monetários
-  rating      Float
-  RentReserve RentReserve[]
+  id_room       Int             @id @default(autoincrement())
+  description   String
+  city          String
+  district      String
+  price         Decimal // Use o tipo Decimal para valores monetários
+  rating        Float
+  RentReserve   RentReserve[]
+  Room_Services RoomServices[]
 }
 
 model User {
@@ -38,4 +39,19 @@ model RentReserve {
 
   user User @relation(fields: [id_user], references: [id_user])
   room Room @relation(fields: [id_room], references: [id_room])
+}
+
+model Services {
+  id_service    Int             @id @default(autoincrement())
+  description   String
+  Room_Services RoomServices[]
+}
+
+model RoomServices {
+  id_room_service Int @id @default(autoincrement())
+  id_room         Int
+  id_service      Int
+
+  room    Room     @relation(fields: [id_room], references: [id_room])
+  service Services @relation(fields: [id_service], references: [id_service])
 }

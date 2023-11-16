@@ -5,21 +5,19 @@ import { useEffect, useState } from 'react'
 import 'tailwindcss/tailwind.css'
 
 import { Header } from '@/app/header/Header'
-import {
-  CarSimple,
-  Coffee,
-  ForkKnife,
-  MapPin,
-  Monitor,
-  SketchLogo,
-  Thermometer,
-  WifiHigh,
-} from '@phosphor-icons/react'
+import { MapPin, SketchLogo } from '@phosphor-icons/react'
+
+type RoomService = {
+  service: {
+    description: string
+  }
+}
 
 interface RoomData {
   description: string
   city: string
   rating: string
+  Room_Services: RoomService[]
 }
 
 export default function Desk() {
@@ -27,14 +25,20 @@ export default function Desk() {
   const { id } = router.query
 
   const [roomData, setRoomData] = useState<RoomData | null>(null)
+  const [selectedDate, setSelectedDate] = useState<string>('')
+  const [servicesData, setServicesData] = useState<string[]>([])
 
   useEffect(() => {
     if (id) {
-      console.log('entrou aqui')
       fetch(`/api/rooms/${id}`)
         .then((response) => response.json())
         .then((data: RoomData) => {
           setRoomData(data)
+          setServicesData(
+            data?.Room_Services.map(
+              (roomService) => roomService.service.description,
+            ) || [],
+          )
         })
     }
   }, [id])
@@ -87,31 +91,15 @@ export default function Desk() {
               <h1 className="mt-4 pb-4 text-xl font-bold">
                 O que esse lugar oferece:
               </h1>
-              <div className="grid grid-cols-2 gap-2 pb-4">
-                <div className="flex w-min items-center gap-2 font-semibold">
-                  <ForkKnife size={20} weight="bold" />
-                  <p>Cozinha</p>
-                </div>
-                <div className="flex items-center gap-2 font-semibold">
-                  <CarSimple size={20} weight="bold" />
-                  <p>Estacionamento</p>
-                </div>
-                <div className="flex items-center gap-2 font-semibold">
-                  <Monitor size={20} weight="bold" />
-                  <p>Monitor nas Mesas</p>
-                </div>
-                <div className="flex items-center gap-2 font-semibold">
-                  <WifiHigh size={20} weight="bold" />
-                  <p>Wifi</p>
-                </div>
-                <div className="flex items-center gap-2 font-semibold">
-                  <Coffee size={20} weight="bold" />
-                  <p>Café</p>
-                </div>
-                <div className="flex items-center gap-2 font-semibold">
-                  <Thermometer size={20} weight="bold" />
-                  <p>Ambiente Climatizado</p>
-                </div>
+              <div className="grid grid-cols-3 gap-2 pb-4">
+                {servicesData.map((service, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center gap-2 font-semibold"
+                  >
+                    <p>{service}</p>
+                  </div>
+                ))}
               </div>
               <div className="h-[1px] w-full bg-zinc-300" />
               <h1 className="py-4 text-xl font-bold">Descrição</h1>
