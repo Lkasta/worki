@@ -1,7 +1,7 @@
 // pages/api/rooms/[id].ts
 
-import { NextApiRequest, NextApiResponse } from 'next'
 import { PrismaClient } from '@prisma/client'
+import { NextApiRequest, NextApiResponse } from 'next'
 
 const prisma = new PrismaClient()
 
@@ -15,6 +15,13 @@ export default async function handler(
     const room = await prisma.room.findUnique({
       where: {
         id_room: parseInt(id as string, 10), // Certifique-se de fazer a conversão apropriada
+      },
+      include: {
+        Room_Services: {
+          include: {
+            service: true,
+          },
+        },
       },
     })
 
