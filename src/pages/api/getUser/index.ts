@@ -17,8 +17,6 @@ export default async function handler(
 
     const userId = verifyToken(token, 'nextauth.token')
 
-    console.log(userId)
-
     if (!userId) {
       return res.status(401).json({ error: 'Invalid token' })
     }

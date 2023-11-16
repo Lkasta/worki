@@ -1,5 +1,9 @@
 // pages/desk/[id].tsx
 'use client'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import 'tailwindcss/tailwind.css'
+
 import { Header } from '@/app/header/Header'
 import {
   CarSimple,
@@ -11,9 +15,6 @@ import {
   Thermometer,
   WifiHigh,
 } from '@phosphor-icons/react'
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import 'tailwindcss/tailwind.css'
 
 interface RoomData {
   description: string
@@ -24,8 +25,8 @@ interface RoomData {
 export default function Desk() {
   const router = useRouter()
   const { id } = router.query
+
   const [roomData, setRoomData] = useState<RoomData | null>(null)
-  const [selectedDate, setSelectedDate] = useState<string>('')
 
   useEffect(() => {
     if (id) {
@@ -38,32 +39,8 @@ export default function Desk() {
     }
   }, [id])
 
-  const handleReserve = async () => {
-    try {
-      const token = localStorage.getItem('nextauth.token') // Altere para o nome do cookie que você está usando
-      const response = await fetch('/api/createReservation', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          roomId: id,
-          date: selectedDate,
-        }),
-      })
-
-      if (response.ok) {
-        console.log('Quarto reservado com sucesso!')
-      } else {
-        console.error('Erro ao reservar o quarto')
-      }
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
   return (
+    // <ProtectedRoute>
     <div>
       <Header />
       <div className="flex flex-col items-center justify-center">
@@ -84,6 +61,8 @@ export default function Desk() {
                 className="h-[466px] w-full rounded-l-2xl object-cover"
               />
             </div>
+
+            {/* Imagem 2 e 3 */}
             <div className="w-1/3">
               <div className="mb-4 flex flex-col gap-4">
                 <img
@@ -182,15 +161,8 @@ export default function Desk() {
                 </button>
               </div>
               <div className="rounded-md border p-4">
-                <input
-                  type="date"
-                  className="w-full text-gray-700"
-                  onChange={(e) => setSelectedDate(e.target.value)}
-                />
-                <button
-                  onClick={handleReserve}
-                  className="mt-4 w-full rounded-md bg-violet-700 px-3 py-1.5 font-semibold text-white shadow hover:bg-violet-500"
-                >
+                <input type="date" className="w-full text-gray-700" />
+                <button className="mt-4 w-full rounded-md bg-violet-700 px-3 py-1.5 font-semibold text-white shadow hover:bg-violet-500">
                   Reservar Agora
                 </button>
               </div>
