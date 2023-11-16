@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-sync-scripts */
 import { AuthProvider } from '@/contexts/AuthContext'
 import type { Metadata } from 'next'
 import { Inter, Roboto_Flex as Roboto } from 'next/font/google'
@@ -26,6 +27,7 @@ export default function RootLayout({
         <body className={`${roboto.className} grid min-h-screen text-zinc-700`}>
           {children}
         </body>
+        <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
       </html>
     </AuthProvider>
   )

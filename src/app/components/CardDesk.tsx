@@ -34,7 +34,7 @@ export function CardDesk({
     >
       <img
         src="https://www.deskcoworking.com.br/wp-content/uploads/2022/04/estacoes-de-trabalho-de-coworking-desk-coworking-2-e1652918932256.jpg"
-        className="h-52 w-img-card-desk rounded-lg object-cover"
+        className="mb-2 h-52 w-img-card-desk rounded-lg object-cover"
         alt="a"
       />
       <div className="absolute right-4 top-4 flex flex-col items-end gap-2.5 shadow-md">
