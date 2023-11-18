@@ -7,17 +7,17 @@ import { Input } from '../components/Input'
 import ProtectedRoute from '../components/ProtectedRoute'
 import { Header } from '../header/Header'
 
+interface Room {
+  id_room: number
+  description: string
+  city: string
+  district: string
+  price: number
+  rating: number
+}
+
 export default function Home() {
   const { user } = useContext(AuthContext)
-
-  interface Room {
-    id_room: number
-    description: string
-    city: string
-    district: string
-    price: number
-    rating: number
-  }
 
   const [roomData, setRoomData] = useState<Room[]>([])
 

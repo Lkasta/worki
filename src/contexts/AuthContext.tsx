@@ -53,6 +53,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           maxAge: 60 * 60 * 1,
         })
         fetchUserInformation(token)
+        router.push('/home')
       } else if (response.status === 401) {
         const erroData = await response.json()
         console.log(erroData)
@@ -84,7 +85,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         const userData = await response.json()
         setUser(userData)
         setIsAuthenticated(true)
-        router.push('/home')
       } else {
         setIsError(true)
         setUser(null)
