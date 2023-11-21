@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 // pages/desk/[id].tsx
 'use client'
 import { useRouter } from 'next/router'

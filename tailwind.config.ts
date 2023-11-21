@@ -5,7 +5,6 @@ const config: Config = {
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-    './node_modules/flowbite/**/*.js',
   ],
   theme: {
     extend: {
@@ -21,6 +20,10 @@ const config: Config = {
         'app-xl': '1200px',
         'max-screen': '100vh',
         'img-card-desk': '13rem',
+        'app-checkbox': '16px',
+      },
+      height: {
+        'app-checkbox': '16px',
       },
       minWidth: {
         'app-sm': '576px',
@@ -30,6 +33,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [require('flowbite/plugin')],
+  plugins: [],
 }
 export default config

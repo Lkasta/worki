@@ -28,7 +28,7 @@ export function Header() {
               value="tab1"
               title="Home"
               isSelected={currentTab === 'tab1'}
-              destiny="Home"
+              destiny="home"
             />
             <NavItem
               value="tab2"
@@ -40,7 +40,7 @@ export function Header() {
               value="tab3"
               title="Contato"
               isSelected={currentTab === 'tab3'}
-              destiny="Home"
+              destiny="home"
             />
           </Tabs.List>
         </Tabs.Root>

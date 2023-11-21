@@ -1,6 +1,5 @@
 'use client'
 import { DotsThreeVertical } from '@phosphor-icons/react'
-import 'flowbite'
 interface ReservationProps {
   id_rent_reserve: number
   room: {
