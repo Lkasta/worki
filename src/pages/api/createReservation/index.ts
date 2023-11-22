@@ -23,6 +23,24 @@ const reserveRoomHandler = async (
     const roomId = parseInt(req.body.roomId, 10)
     const { date } = req.body
 
+    const existingReservation = await prisma.rentReserve.findFirst({
+      where: {
+        id_room: roomId,
+        data_initial_reserve: {
+          lte: new Date(date),
+        },
+        data_final_reserve: {
+          gte: new Date(date),
+        },
+      },
+    })
+
+    if (existingReservation) {
+      return res
+        .status(400)
+        .json({ error: 'Room already reserved for the specified date' })
+    }
+
     const reservation = await prisma.rentReserve.create({
       data: {
         id_user: userId, // Extrai o userId do token
