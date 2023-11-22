@@ -1,5 +1,7 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { AuthContext } from '@/contexts/AuthContext'
+import { useRouter } from 'next/navigation'
+import { useContext, useEffect, useState } from 'react'
 import { ElementListRent } from '../components/ElementListRent'
 import { Header } from '../header/Header'
 
@@ -15,6 +17,8 @@ interface RentHistoryProps {
 
 export default function RentHistory() {
   const [reservations, setReservations] = useState<RentHistoryProps[]>([])
+  const { user } = useContext(AuthContext)
+  const router = useRouter()
 
   useEffect(() => {
     const fetchReservations = async () => {
@@ -22,10 +26,15 @@ export default function RentHistory() {
       const data = await response.json()
 
       setReservations(data.data)
-      console.log(data.data)
     }
 
     fetchReservations()
+  }, [])
+
+  useEffect(() => {
+    if (!user) {
+      router.push('/home')
+    }
   }, [])
 
   return (

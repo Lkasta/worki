@@ -28,6 +28,10 @@ export default function Desk() {
   const [roomData, setRoomData] = useState<RoomData | null>(null)
   const [selectedDate, setSelectedDate] = useState<string>('')
   const [servicesData, setServicesData] = useState<string[]>([])
+  const [reservationError, setReservationError] = useState<string | null>(null)
+  const [reservationSuccess, setReservationSuccess] = useState<string | null>(
+    null,
+  )
 
   useEffect(() => {
     if (id) {
@@ -44,6 +48,55 @@ export default function Desk() {
     }
   }, [id])
 
+  const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedDate(event.target.value)
+  }
+
+  const handleReserve = async () => {
+    setReservationError(null)
+    setReservationSuccess(null)
+    try {
+      const currentDate = new Date().toISOString().split('T')[0]
+      if (selectedDate <= currentDate) {
+        setReservationError('A data escolhida deve ser maior que a data atual.')
+        return
+      }
+
+      const response = await fetch('/api/createReservation', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          roomId: id,
+          date: selectedDate,
+        }),
+      })
+
+      if (response.ok) {
+        console.log('Quarto reservado com sucesso!')
+        setReservationSuccess('Quarto reservado com sucesso!')
+      } else {
+        console.error('Erro ao reservar o quarto')
+
+        const data = await response.json()
+
+        if (
+          response.status === 400 &&
+          data.error === 'Room already reserved for the specified date'
+        ) {
+          setReservationError(
+            'Este quarto já está reservado para a data especificada.',
+          )
+        } else {
+          // Outro erro
+          console.error('Erro ao reservar o quarto:', data.error)
+        }
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
   return (
     // <ProtectedRoute>
     <div>
@@ -150,8 +203,25 @@ export default function Desk() {
                 </button>
               </div>
               <div className="rounded-md border p-4">
-                <input type="date" className="w-full text-gray-700" />
-                <button className="mt-4 w-full rounded-md bg-violet-700 px-3 py-1.5 font-semibold text-white shadow hover:bg-violet-500">
+                <input
+                  type="date"
+                  className="w-full text-gray-700"
+                  onChange={handleDateChange}
+                />
+                {reservationError && (
+                  <div className="mt-4 rounded-md bg-red-500 p-2 text-white">
+                    {reservationError}
+                  </div>
+                )}
+                {reservationSuccess && (
+                  <div className="mt-4 rounded-md bg-green-500 p-2 text-white">
+                    {reservationSuccess}
+                  </div>
+                )}
+                <button
+                  className="mt-4 w-full rounded-md bg-violet-700 px-3 py-1.5 font-semibold text-white shadow hover:bg-violet-500"
+                  onClick={handleReserve}
+                >
                   Reservar Agora
                 </button>
               </div>
