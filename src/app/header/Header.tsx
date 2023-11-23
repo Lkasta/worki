@@ -9,7 +9,7 @@ export interface HeaderProps {
 }
 
 export function Header() {
-  const [currentTab, setCurrentTab] = useState('tab1')
+  const [currentTab, setCurrentTab] = useState('')
 
   return (
     <header className="flex justify-center py-8 shadow">
@@ -25,22 +25,28 @@ export function Header() {
         >
           <Tabs.List className="flex items-center justify-center gap-6 text-xl">
             <NavItem
-              value="tab1"
+              value="home"
               title="Home"
-              isSelected={currentTab === 'tab1'}
+              isSelected={currentTab === 'home'}
               destiny="home"
             />
             <NavItem
-              value="tab2"
+              value="RentHistory"
               title="Histórico de Reservas"
-              isSelected={currentTab === 'tab2'}
+              isSelected={currentTab === 'RentHistory'}
               destiny="RentHistory"
             />
             <NavItem
-              value="tab3"
+              value="contato"
               title="Contato"
-              isSelected={currentTab === 'tab3'}
+              isSelected={currentTab === 'contato'}
               destiny="home"
+            />
+            <NavItem
+              value="cadDesk"
+              title="Cadastro "
+              isSelected={currentTab === 'cadDesk'}
+              destiny="cadDesk"
             />
           </Tabs.List>
         </Tabs.Root>
