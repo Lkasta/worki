@@ -1,7 +1,12 @@
-import { Check, ForkKnife } from '@phosphor-icons/react'
-import { useState } from 'react'
+import { Check } from '@phosphor-icons/react'
+import { ElementType, useState } from 'react'
 
-export function CheckboxCadDesk() {
+interface NavItemProps {
+  title: string
+  icon: ElementType
+}
+
+export function CheckboxCadDesk({ title, icon: Icon }: NavItemProps) {
   const [isChecked, setChecked] = useState(false)
 
   const handleCheckboxClick = () => {
@@ -9,7 +14,7 @@ export function CheckboxCadDesk() {
   }
 
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center gap-1 text-zinc-700">
       <button
         className={
           isChecked
@@ -26,8 +31,8 @@ export function CheckboxCadDesk() {
           <div></div>
         )}
       </button>
-      <ForkKnife size={16} weight="bold" />
-      <p className="text-lg">Cozinha</p>
+      <Icon size={16} weight="bold" />
+      <p className="text-lg">{title}</p>
     </div>
   )
 }

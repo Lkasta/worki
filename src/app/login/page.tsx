@@ -110,7 +110,7 @@ export default function Login() {
                 )}
 
                 <button
-                  className="hover-bg-violet-500 rounded-lg bg-violet-600 px-4 py-2 font-semibold text-zinc-50 shadow-sm"
+                  className="rounded-lg bg-violet-600 px-4 py-2 font-semibold text-zinc-50 shadow-sm hover:bg-violet-500"
                   onClick={handleSignIn}
                 >
                   Entrar
@@ -171,7 +171,7 @@ export default function Login() {
                 </div>
 
                 <button
-                  className="hover-bg-violet-500 rounded-lg bg-violet-600 px-4 py-2 font-semibold text-zinc-50 shadow-sm"
+                  className="rounded-lg bg-violet-600 px-4 py-2 font-semibold text-zinc-50 shadow-sm hover:bg-violet-500"
                   onClick={handleCreateUser}
                 >
                   Finalizar Cadastro
