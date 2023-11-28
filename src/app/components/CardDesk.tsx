@@ -8,7 +8,9 @@ interface CardDeskProps {
   district: string
   price: number
   rating: number
-  id: number // Adicione o ID como uma propriedade
+  id: number
+  name: string
+  // Adicione o ID como uma propriedade
 }
 
 export function CardDesk({
@@ -17,7 +19,8 @@ export function CardDesk({
   district,
   price,
   rating,
-  id, // Adicione o ID como uma propriedade
+  id,
+  name, // Adicione o ID como uma propriedade
 }: CardDeskProps) {
   const router = useRouter()
 
@@ -46,7 +49,7 @@ export function CardDesk({
           <BookmarkSimple size={20} weight="fill" color="#FFC700" />
         </div>
       </div>
-      <h1 className="text-xl font-bold">{description}</h1>
+      <h1 className="text-xl font-bold">{name}</h1>
       <h1 className="text-sm font-bold text-zinc-400">
         {city} - {district}
       </h1>

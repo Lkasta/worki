@@ -3,6 +3,7 @@ import { AuthContext } from '@/contexts/AuthContext'
 import { useRouter } from 'next/navigation'
 import { useContext, useEffect, useState } from 'react'
 import { ElementListRent } from '../components/ElementListRent'
+import ErrorPage from '../errorPage/page'
 import { Header } from '../header/Header'
 
 interface RentHistoryProps {
@@ -12,29 +13,44 @@ interface RentHistoryProps {
   }
   userId: number
   data_initial_reserve: string
-  status: string
+  canceled: boolean
 }
 
 export default function RentHistory() {
   const [reservations, setReservations] = useState<RentHistoryProps[]>([])
   const { user } = useContext(AuthContext)
   const router = useRouter()
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const { parseCookies } = require('nookies')
 
   useEffect(() => {
-    const fetchReservations = async () => {
-      const response = await fetch('/api/getRentHistory')
-      const data = await response.json()
+    const { 'nextauth.token': token } = parseCookies()
 
-      setReservations(data.data)
+    if (!token) {
+      router.push('/login')
     }
-
-    fetchReservations()
+    console.log(ErrorPage)
   }, [])
 
   useEffect(() => {
-    if (!user) {
-      router.push('/home')
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/api/getRentHistory')
+        const data = await response.json()
+
+        if (response.status === 401) {
+          router.push('/login')
+        } else if (response.ok) {
+          setReservations(data.data)
+        } else {
+          console.error('Erro ao buscar reservas:', data.error)
+        }
+      } catch (error) {
+        console.error('Erro ao buscar reservas:', error)
+      }
     }
+
+    fetchData()
   }, [])
 
   return (
@@ -44,12 +60,19 @@ export default function RentHistory() {
         <div className="flex w-app-lg flex-col gap-4">
           <h1 className="mt-10 text-[32px] font-bold">Histórico</h1>
           <div>
-            {reservations.map((reservation) => (
-              <ElementListRent
-                key={reservation.id_rent_reserve}
-                reservation={reservation}
-              />
-            ))}
+            {reservations.length === 0 ? (
+              <div className="text-center text-gray-500">
+                Não há reservas disponíveis ainda.
+              </div>
+            ) : (
+              // Se o array não está vazio, renderiza as reservas
+              reservations.map((reservation) => (
+                <ElementListRent
+                  key={reservation.id_rent_reserve}
+                  reservation={reservation}
+                />
+              ))
+            )}
           </div>
         </div>
       </div>

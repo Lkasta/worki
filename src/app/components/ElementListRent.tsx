@@ -8,7 +8,7 @@ interface ReservationProps {
   }
   userId: number
   data_initial_reserve: string
-  status: string
+  canceled: boolean
 }
 
 /* eslint-disable @next/next/no-img-element */
@@ -72,12 +72,16 @@ export function ElementListRent({
         <p className="mt-1 text-xs leading-5 text-gray-500">
           Agendado para dia {formatarData(reservation.data_initial_reserve)}
         </p>
-        <span className="relative flex h-2.5 w-2.5">
-          <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-violet-700" />
-        </span>
-        <p className="text-sm leading-6 text-gray-900">Reservado</p>
+        <span
+          className={`relative flex h-2.5 w-2.5 rounded-full ${
+            reservation.canceled ? 'bg-red-500' : 'bg-violet-700'
+          }`}
+        />
+        <p className="text-sm leading-6 text-gray-900">
+          {reservation.canceled ? 'Cancelado' : 'Reservado'}
+        </p>
         <button className="">
-          <DropDownHistory />
+          <DropDownHistory idRentReserve={reservation.id_rent_reserve} />
         </button>
       </div>
     </div>
