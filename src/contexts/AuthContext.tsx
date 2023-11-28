@@ -13,7 +13,8 @@ type AuthContextType = {
   signIn: (data: SignInData) => void
   isAuthenticated: boolean
   isError: boolean
-  user: User | null // Inclua a propriedade 'user' no tipo
+  user: User | null
+  signOut: () => void // Inclua a propriedade 'user' no tipo
 }
 
 export const AuthContext = createContext({} as AuthContextType)
@@ -98,7 +99,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, signIn, isError, user }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, signIn, isError, user, signOut }}
+    >
       {children}
     </AuthContext.Provider>
   )

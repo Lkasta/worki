@@ -1,5 +1,6 @@
 import verifyToken from '@/lib/verifyToken'
 import { PrismaClient } from '@prisma/client'
+import { format } from 'date-fns'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 const prisma = new PrismaClient()
@@ -21,32 +22,42 @@ const reserveRoomHandler = async (
     const userId = verifyToken(token, 'nextauth.token')
 
     const roomId = parseInt(req.body.roomId, 10)
-    const { date } = req.body
+    const { startDate } = req.body
+    const { endDate } = req.body
 
     const existingReservation = await prisma.rentReserve.findFirst({
       where: {
         id_room: roomId,
         data_initial_reserve: {
-          lte: new Date(date),
+          lte: new Date(endDate), // Verifica se a reserva existente se estende além do final desejado
         },
         data_final_reserve: {
-          gte: new Date(date),
+          gte: new Date(startDate),
         },
+        canceled: false,
       },
     })
 
     if (existingReservation) {
-      return res
-        .status(400)
-        .json({ error: 'Room already reserved for the specified date' })
+      const nextAvailableDate = new Date(existingReservation.data_final_reserve)
+      nextAvailableDate.setDate(nextAvailableDate.getDate() + 1)
+      const formattedDate = format(nextAvailableDate, 'dd-MM-yyyy')
+
+      const response = {
+        error: 'Room already reserved for the specified date',
+        nextAvailableDate: formattedDate,
+      }
+
+      return res.status(400).json(response)
     }
 
     const reservation = await prisma.rentReserve.create({
       data: {
         id_user: userId, // Extrai o userId do token
         id_room: roomId,
-        data_initial_reserve: new Date(date),
-        data_final_reserve: new Date(date), // Ajuste conforme necessário
+        data_initial_reserve: new Date(startDate),
+        data_final_reserve: new Date(endDate),
+        canceled: false,
       },
     })
 

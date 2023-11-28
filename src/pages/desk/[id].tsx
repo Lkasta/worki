@@ -3,10 +3,19 @@
 'use client'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 import 'tailwindcss/tailwind.css'
 
 import { Header } from '@/app/header/Header'
-import { MapPin, SketchLogo } from '@phosphor-icons/react'
+import {
+  Archive,
+  Backpack,
+  Car,
+  CookingPot,
+  MapPin,
+  SketchLogo,
+} from '@phosphor-icons/react'
 
 type RoomService = {
   service: {
@@ -18,6 +27,7 @@ interface RoomData {
   description: string
   city: string
   rating: string
+  name: string
   Room_Services: RoomService[]
 }
 
@@ -26,10 +36,14 @@ export default function Desk() {
   const { id } = router.query
 
   const [roomData, setRoomData] = useState<RoomData | null>(null)
-  const [selectedDate, setSelectedDate] = useState<string>('')
   const [servicesData, setServicesData] = useState<string[]>([])
   const [reservationError, setReservationError] = useState<string | null>(null)
   const [reservationSuccess, setReservationSuccess] = useState<string | null>(
+    null,
+  )
+  const [startDate, setStartDate] = useState<Date | null>(null)
+  const [endDate, setEndDate] = useState<Date | null>(null)
+  const [nextAvailableDate, setNextAvailableDate] = useState<string | null>(
     null,
   )
 
@@ -48,17 +62,23 @@ export default function Desk() {
     }
   }, [id])
 
-  const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedDate(event.target.value)
-  }
-
   const handleReserve = async () => {
     setReservationError(null)
     setReservationSuccess(null)
     try {
       const currentDate = new Date().toISOString().split('T')[0]
-      if (selectedDate <= currentDate) {
+
+      if (!startDate || startDate.toISOString().split('T')[0] <= currentDate) {
         setReservationError('A data escolhida deve ser maior que a data atual.')
+        setNextAvailableDate(null)
+        return
+      }
+
+      if (endDate && endDate < startDate) {
+        setReservationError(
+          'A data final não pode ser anterior à data inicial.',
+        )
+        setNextAvailableDate(null)
         return
       }
 
@@ -69,13 +89,15 @@ export default function Desk() {
         },
         body: JSON.stringify({
           roomId: id,
-          date: selectedDate,
+          startDate,
+          endDate,
         }),
       })
 
       if (response.ok) {
         console.log('Quarto reservado com sucesso!')
         setReservationSuccess('Quarto reservado com sucesso!')
+        setNextAvailableDate(null)
       } else {
         console.error('Erro ao reservar o quarto')
 
@@ -88,13 +110,35 @@ export default function Desk() {
           setReservationError(
             'Este quarto já está reservado para a data especificada.',
           )
-        } else {
+          setNextAvailableDate(data.nextAvailableDate)
+        } else if (
+          response.status === 400 &&
+          data.error === 'Room already reserved for the specified date'
+        ) {
           // Outro erro
           console.error('Erro ao reservar o quarto:', data.error)
         }
       }
     } catch (error) {
       console.error(error)
+    }
+  }
+
+  const mapDescriptionToIcon = (description: string) => {
+    console.log(description)
+
+    switch (description) {
+      case 'Armários':
+        return <Archive size={21} className="text-4xl text-violet-700" />
+      case 'Gavetas pessoais':
+        return <Backpack size={21} className="text-4xl text-violet-700" />
+      case 'Cozinha':
+        return <CookingPot size={21} className="text-4xl text-violet-700" />
+      case 'Estacionamento':
+        return <Car size={21} className="text-4xl text-violet-700" />
+      default:
+        // Caso padrão (por exemplo, se a descrição não corresponder a nenhum caso)
+        return null
     }
   }
   return (
@@ -108,7 +152,7 @@ export default function Desk() {
             <p>{roomData?.rating}</p>
             <div className="h-[3px] w-[3px] rounded-full bg-zinc-700"></div>
             <p>{roomData?.city}</p>
-            <p>{roomData?.description}</p>
+            <p>{roomData?.name}</p>
           </div>
           <div className="flex">
             {/* Imagem 1 */}
@@ -151,21 +195,16 @@ export default function Desk() {
                     key={index}
                     className="flex items-center gap-2 font-semibold"
                   >
+                    {mapDescriptionToIcon(service)}
                     <p>{service}</p>
                   </div>
                 ))}
               </div>
               <div className="h-[1px] w-full bg-zinc-300" />
-              <h1 className="py-4 text-xl font-bold">Descrição</h1>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
-              </p>
+              <div className="">
+                <h1 className="py-4 text-xl font-bold">Descrição</h1>
+                <p className="">{roomData?.description}</p>
+              </div>
               <div className="flex items-center gap-2 py-2">
                 <MapPin
                   weight="fill"
@@ -203,11 +242,38 @@ export default function Desk() {
                 </button>
               </div>
               <div className="rounded-md border p-4">
-                <input
-                  type="date"
-                  className="w-full text-gray-700"
-                  onChange={handleDateChange}
-                />
+                <div className="flex gap-4">
+                  <div className="w-1/2 text-center">
+                    <label
+                      htmlFor="startDate"
+                      className="block text-lg font-medium text-gray-700"
+                    >
+                      Data Inicial
+                    </label>
+                    <DatePicker
+                      selected={startDate}
+                      onChange={(date: Date | null) => setStartDate(date)}
+                      dateFormat="dd/MM/yyyy"
+                      className="w-full px-7 text-gray-700"
+                      id="startDate"
+                    />
+                  </div>
+                  <div className="w-1/2 text-center">
+                    <label
+                      htmlFor="endDate"
+                      className="block text-lg font-medium text-gray-700"
+                    >
+                      Data Final
+                    </label>
+                    <DatePicker
+                      selected={endDate}
+                      onChange={(date: Date | null) => setEndDate(date)}
+                      dateFormat="dd/MM/yyyy"
+                      className="w-full px-7 text-gray-700"
+                      id="endDate"
+                    />
+                  </div>
+                </div>
                 {reservationError && (
                   <div className="mt-4 rounded-md bg-red-500 p-2 text-white">
                     {reservationError}
@@ -216,6 +282,12 @@ export default function Desk() {
                 {reservationSuccess && (
                   <div className="mt-4 rounded-md bg-green-500 p-2 text-white">
                     {reservationSuccess}
+                  </div>
+                )}
+                {nextAvailableDate && (
+                  <div className="mt-4 rounded-md bg-yellow-600 p-2 text-white">
+                    Este quarto estará disponível a partir do dia{' '}
+                    {nextAvailableDate}.
                   </div>
                 )}
                 <button
