@@ -11,7 +11,8 @@ datasource db {
 }
 
 model Room {
-  id_room       Int             @id @default(autoincrement())
+  id_room       Int            @id @default(autoincrement())
+  name          String         @default(value: "")
   description   String
   city          String
   district      String
@@ -36,13 +37,14 @@ model RentReserve {
   id_room              Int
   data_initial_reserve DateTime
   data_final_reserve   DateTime
+  canceled              Boolean
 
   user User @relation(fields: [id_user], references: [id_user])
   room Room @relation(fields: [id_room], references: [id_room])
 }
 
 model Services {
-  id_service    Int             @id @default(autoincrement())
+  id_service    Int            @id @default(autoincrement())
   description   String
   Room_Services RoomServices[]
 }

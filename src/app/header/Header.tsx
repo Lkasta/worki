@@ -1,7 +1,8 @@
 'use client'
+import { AuthContext } from '@/contexts/AuthContext'
 import { Nut } from '@phosphor-icons/react'
 import * as Tabs from '@radix-ui/react-tabs'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { NavItem } from './NavItem'
 
 export interface HeaderProps {
@@ -10,6 +11,7 @@ export interface HeaderProps {
 
 export function Header() {
   const [currentTab, setCurrentTab] = useState('')
+  const { signOut } = useContext(AuthContext)
 
   return (
     <header className="flex justify-center py-8 shadow">
@@ -51,9 +53,12 @@ export function Header() {
           </Tabs.List>
         </Tabs.Root>
 
-        <button className="ml-auto flex items-center justify-center gap-3 rounded-full bg-violet-600 px-4 py-2 font-bold text-white shadow hover:bg-violet-500">
+        <button
+          onClick={signOut}
+          className="ml-auto flex items-center justify-center gap-3 rounded-full bg-red-500 px-4 py-2 font-bold text-white shadow"
+        >
           <Nut size={20} weight="bold" />
-          <p>Opções</p>
+          <p>Log out</p>
         </button>
       </div>
     </header>
