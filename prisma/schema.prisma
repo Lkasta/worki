@@ -11,23 +11,33 @@ datasource db {
 }
 
 model Room {
-  id_room       Int            @id @default(autoincrement())
-  name          String         @default(value: "")
+  id_room       Int     @id @default(autoincrement())
+  name          String  @default(value: "")
   description   String
   city          String
+  postalCode    String
+  neighborhood  String
+  address       String
+  addressNumber String
   district      String
   price         Decimal // Use o tipo Decimal para valores monetários
+  complement    String
   rating        Float
+  image1        String
+  image2        String
+  image3        String
+
   RentReserve   RentReserve[]
   Room_Services RoomServices[]
 }
 
 model User {
-  id_user     Int           @id @default(autoincrement())
-  username    String
-  email       String        @unique
-  password    String
-  cpf         String
+  id_user  Int    @id @default(autoincrement())
+  username String
+  email    String @unique
+  password String
+  cpf      String
+
   RentReserve RentReserve[]
 }
 
@@ -37,15 +47,17 @@ model RentReserve {
   id_room              Int
   data_initial_reserve DateTime
   data_final_reserve   DateTime
-  canceled              Boolean
+  canceled             Boolean
 
   user User @relation(fields: [id_user], references: [id_user])
   room Room @relation(fields: [id_room], references: [id_room])
 }
 
 model Services {
-  id_service    Int            @id @default(autoincrement())
-  description   String
+  id_service  Int    @id @default(autoincrement())
+  description String
+  icon        String
+
   Room_Services RoomServices[]
 }
 

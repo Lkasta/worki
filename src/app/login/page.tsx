@@ -47,10 +47,8 @@ export default function Login() {
       })
 
       if (response.ok) {
-        // O usuário foi criado com sucesso, você pode lidar com a resposta aqui, se necessário
         console.log('Usuário criado com sucesso!')
       } else {
-        // Algo deu errado na criação do usuário
         console.error('Erro ao criar usuário')
         setShowWarningCad(false)
         setWarningEmailCpf(true)
