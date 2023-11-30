@@ -12,9 +12,17 @@ import {
   Archive,
   Backpack,
   Car,
+  Coffee,
   CookingPot,
+  FrameCorners,
   MapPin,
+  Monitor,
+  Printer,
+  PuzzlePiece,
   SketchLogo,
+  Storefront,
+  Thermometer,
+  WifiHigh,
 } from '@phosphor-icons/react'
 
 type RoomService = {
@@ -136,8 +144,23 @@ export default function Desk() {
         return <CookingPot size={21} className="text-4xl text-violet-700" />
       case 'Estacionamento':
         return <Car size={21} className="text-4xl text-violet-700" />
+      case 'Internet no Local':
+        return <WifiHigh size={21} className="text-4xl text-violet-700" />
+      case 'Lousa Branca':
+        return <FrameCorners size={21} className="text-4xl text-violet-700" />
+      case 'Máquina de Lanches':
+        return <Coffee size={21} className="text-4xl text-violet-700" />
+      case 'Impressora':
+        return <Printer size={21} className="text-4xl text-violet-700" />
+      case 'Monitor nas Mesas':
+        return <Monitor size={21} className="text-4xl text-violet-700" />
+      case 'Ambiente Climatizado':
+        return <Thermometer size={21} className="text-4xl text-violet-700" />
+      case 'Recepção':
+        return <Storefront size={21} className="text-4xl text-violet-700" />
+      case 'Ambiente Recreativo':
+        return <PuzzlePiece size={21} className="text-4xl text-violet-700" />
       default:
-        // Caso padrão (por exemplo, se a descrição não corresponder a nenhum caso)
         return null
     }
   }

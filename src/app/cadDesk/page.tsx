@@ -174,19 +174,16 @@ export default function cadDesk() {
             {/* O que o ambiente oferece */}
             <h1 className="my-1 text-2xl">O que o ambiente oferece:</h1>
             <div className="grid grid-cols-4 gap-5 pb-4">
-              <CheckboxCadDesk icon={ForkKnife} title="Cozinha" />
+              <CheckboxCadDesk icon={ForkKnife} title="Cozinha" />--
               <CheckboxCadDesk icon={WifiHigh} title="Internet no Local" />
               <CheckboxCadDesk icon={FrameCorners} title="Lousa Branca" />
-              <CheckboxCadDesk icon={Folder} title="Armários" />
-              <CheckboxCadDesk icon={CarSimple} title="Estacionamento" />
+              <CheckboxCadDesk icon={Folder} title="Armários" />--
+              <CheckboxCadDesk icon={CarSimple} title="Estacionamento" />--
               <CheckboxCadDesk icon={Coffee} title="Máquina de Lanches" />
               <CheckboxCadDesk icon={Printer} title="Impressora" />
-              <CheckboxCadDesk icon={Lock} title="Gavetas Pessoais" />
+              <CheckboxCadDesk icon={Lock} title="Gavetas Pessoais" />--
               <CheckboxCadDesk icon={Monitor} title="Monitor nas Mesas" />
-              <CheckboxCadDesk
-                icon={Thermometer}
-                title="Ambiente Climatizado"
-              />
+              <CheckboxCadDesk icon={Thermometer} title="Ambiente Climatizado" />
               <CheckboxCadDesk icon={Storefront} title="Recepção" />
               <CheckboxCadDesk icon={PuzzlePiece} title="Ambiente Recreativo" />
             </div>
