@@ -6,6 +6,7 @@ interface ReservationProps {
   room: {
     description: string
   }
+  id_room: number
   userId: number
   data_initial_reserve: string
   canceled: boolean
@@ -58,7 +59,11 @@ export function ElementListRent({
   return (
     <div className="my-4 flex h-20 justify-between overflow-auto rounded-lg border border-zinc-200 pr-5">
       <div className="flex min-w-0 items-center gap-x-4">
-        <div className="h-full w-2 bg-purple-700" />
+        <div
+          className={`h-full w-2 ${
+            reservation.canceled ? 'bg-red-500' : 'bg-violet-700'
+          }`}
+        />
         <div className="min-w-0 flex-auto">
           <p className="text-sm font-semibold leading-6 text-gray-900">
             {reservation.room.description}
@@ -73,7 +78,7 @@ export function ElementListRent({
           Agendado para dia {formatarData(reservation.data_initial_reserve)}
         </p>
         <span
-          className={`relative flex h-2.5 w-2.5 rounded-full ${
+          className={`flex h-2.5 w-2.5 rounded-full ${
             reservation.canceled ? 'bg-red-500' : 'bg-violet-700'
           }`}
         />
@@ -81,7 +86,10 @@ export function ElementListRent({
           {reservation.canceled ? 'Cancelado' : 'Reservado'}
         </p>
         <button className="">
-          <DropDownHistory idRentReserve={reservation.id_rent_reserve} />
+          <DropDownHistory
+            idRoom={reservation.id_room}
+            idRentReserve={reservation.id_rent_reserve}
+          />
         </button>
       </div>
     </div>

@@ -1,15 +1,37 @@
 import { DotsThreeVertical } from '@phosphor-icons/react'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import Modal from './Modal'
 
 interface DropdownProps {
   idRentReserve: number
+  idRoom: number
 }
 
-export function DropDownHistory({ idRentReserve }: DropdownProps) {
+// eslint-disable-next-line camelcase
+export function DropDownHistory({ idRentReserve, idRoom }: DropdownProps) {
+  const router = useRouter()
   const [isOpen, setIsOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen)
+  }
+
+  const goToRoom = (id: number) => {
+    router.push(`/desk/${id}`)
+  }
+
+  const openModal = () => {
+    setIsModalOpen(true)
+  }
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen)
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false)
   }
 
   const cancelReservation = async (reservationId: number) => {
@@ -47,7 +69,7 @@ export function DropDownHistory({ idRentReserve }: DropdownProps) {
 
       {isOpen && (
         <div
-          className="absolute mt-2 w-52 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none "
+          className="mt-2 w-52 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none "
           style={{ position: 'fixed' }}
           role="menu"
           aria-orientation="vertical"
@@ -64,15 +86,18 @@ export function DropDownHistory({ idRentReserve }: DropdownProps) {
             <button
               className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
               role="menuitem"
+              onClick={() => goToRoom(idRoom)}
             >
               Ir ao quarto
             </button>
             <button
               className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
               role="menuitem"
+              onClick={openModal}
             >
               Avaliar
             </button>
+            <Modal isOpen={isModalOpen} onClose={closeModal} idRoom={idRoom} />
           </div>
         </div>
       )}

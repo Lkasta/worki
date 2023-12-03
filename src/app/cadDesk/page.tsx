@@ -1,25 +1,16 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable prettier/prettier */
 'use client'
-import {
-  CarSimple,
-  Coffee,
-  Folder,
-  ForkKnife,
-  FrameCorners,
-  Lock,
-  Monitor,
-  Printer,
-  PuzzlePiece,
-  Storefront,
-  Thermometer,
-  WifiHigh,
-} from '@phosphor-icons/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { CheckboxCadDesk } from '../components/CheckboxCadDesk'
 import { Footer } from '../components/Footer'
 import { Input } from '../components/Input'
 import { Header } from '../header/Header'
+
+interface services {
+  id: number,
+  description: string
+}
 
 export default function cadDesk() {
   const [name, setName] = useState('')
@@ -30,12 +21,37 @@ export default function cadDesk() {
   const [address, setAddress] = useState('')
   const [addressNumber, setAddressNumber] = useState('')
   const [district, setDistrict] = useState('')
-  const [complement, setComplemnt] = useState('')
+  const [complement, setComplement] = useState('')
   const [price, setPrice] = useState(0.0)
   const [rating, setRating] = useState(5.0)
   const [image1, setImage1] = useState('')
   const [image2, setImage2] = useState('')
   const [image3, setImage3] = useState('')
+  const [services, setServices] = useState<services[] | null>(null)
+  const [selectedServices, setSelectedServices] = useState<number[]>([])
+
+  useEffect(() => {
+    fetch('/api/getServices')
+      .then((response) => response.json())
+      .then((data) => {
+        setServices(data.data)
+        console.log(data.data)
+      })
+  }, [])
+
+  const handleServiceCheckboxChange = (serviceId: number) => {
+    console.log('veio aqui', serviceId)
+    if (selectedServices.includes(serviceId)) {
+      setSelectedServices((prevSelectedServices) =>
+        prevSelectedServices.filter((id) => id !== serviceId)
+      );
+    } else {
+      setSelectedServices((prevSelectedServices) =>
+        [...prevSelectedServices, serviceId]
+      );
+    }
+  };
+
 
   const handleCreateDesk = async () => {
     if (
@@ -52,7 +68,8 @@ export default function cadDesk() {
       !rating ||
       !image1 ||
       !image2 ||
-      !image3
+      !image3 ||
+      selectedServices.length === 0
     ) {
       try {
         const response = await fetch('/api/createDesk', {
@@ -75,6 +92,7 @@ export default function cadDesk() {
             image1,
             image2,
             image3,
+            services: selectedServices,
           }),
         })
         if (response.ok) {
@@ -146,7 +164,7 @@ export default function cadDesk() {
                   onChange={(value) => setNeighborhood(value)}
                 />
               </div>
-              <div className="grid grid-cols-3 gap-5 ">
+              <div className="grid grid-cols-4 gap-5 ">
                 <Input
                   type="text"
                   placeholder="Endereço"
@@ -166,7 +184,14 @@ export default function cadDesk() {
                   placeholder="Complemento"
                   label="Complemento"
                   name="complemento"
-                  onChange={(value) => setComplemnt(value)}
+                  onChange={(value) => setComplement(value)}
+                />
+                <Input
+                  type="number"
+                  placeholder="Preço"
+                  label="Preço"
+                  name="Preço"
+                  onChange={(value) => setPrice(parseFloat(value))}
                 />
               </div>
             </div>
@@ -174,18 +199,15 @@ export default function cadDesk() {
             {/* O que o ambiente oferece */}
             <h1 className="my-1 text-2xl">O que o ambiente oferece:</h1>
             <div className="grid grid-cols-4 gap-5 pb-4">
-              <CheckboxCadDesk icon={ForkKnife} title="Cozinha" />--
-              <CheckboxCadDesk icon={WifiHigh} title="Internet no Local" />
-              <CheckboxCadDesk icon={FrameCorners} title="Lousa Branca" />
-              <CheckboxCadDesk icon={Folder} title="Armários" />--
-              <CheckboxCadDesk icon={CarSimple} title="Estacionamento" />--
-              <CheckboxCadDesk icon={Coffee} title="Máquina de Lanches" />
-              <CheckboxCadDesk icon={Printer} title="Impressora" />
-              <CheckboxCadDesk icon={Lock} title="Gavetas Pessoais" />--
-              <CheckboxCadDesk icon={Monitor} title="Monitor nas Mesas" />
-              <CheckboxCadDesk icon={Thermometer} title="Ambiente Climatizado" />
-              <CheckboxCadDesk icon={Storefront} title="Recepção" />
-              <CheckboxCadDesk icon={PuzzlePiece} title="Ambiente Recreativo" />
+              {services && services.map((service) => (
+                <CheckboxCadDesk
+                  key={service.id}
+                  title={service.description}
+                  onClick={() => handleServiceCheckboxChange(service.id)}
+                  checked={selectedServices.includes(service.id)}
+                  serviceID={service.id}
+                />
+              ))}
             </div>
             <div className="h-[1px] w-full bg-zinc-300" />
             {/* Imagens */}

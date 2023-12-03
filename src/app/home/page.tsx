@@ -21,6 +21,25 @@ export default function Home() {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const { parseCookies } = require('nookies')
   const router = useRouter()
+  const [searchName, setSearchName] = useState('')
+  const [searchCity, setSearchCity] = useState('')
+  const [filteredRooms, setFilteredRooms] = useState<Room[]>([])
+
+  const handleSearch = () => {
+    console.log('oi entrou')
+    const filteredResults = roomData.filter((room) => {
+      const nameMatch = room.name
+        .toLowerCase()
+        .includes(searchName.toLowerCase())
+      const cityMatch = room.city
+        .toLowerCase()
+        .includes(searchCity.toLowerCase())
+      return nameMatch && cityMatch
+    })
+
+    console.log(filteredResults)
+    setFilteredRooms(filteredResults)
+  }
 
   useEffect(() => {
     const { 'nextauth.token': token } = parseCookies()
@@ -47,6 +66,7 @@ export default function Home() {
       .then((response) => response.json())
       .then((data) => {
         setRoomData(data.data)
+        console.log(data.data)
       })
   }, [])
 
@@ -63,10 +83,25 @@ export default function Home() {
           )}
         </div>
         <div className="elemento relative top-1/2 flex w-app-lg translate-y-[-50%] gap-6 rounded-lg border border-gray-300 bg-white p-6 shadow">
-          <Input name="search" type="text" placeholder="Pesquise por nome" />
-          <Input name="search" type="text" placeholder="Selecione uma cidade" />
+          <Input
+            name="search"
+            type="text"
+            placeholder="Pesquise por nome"
+            value={searchName}
+            onChange={(value) => setSearchName(value)}
+          />
+          <Input
+            name="search"
+            type="text"
+            placeholder="Selecione uma cidade"
+            value={searchCity}
+            onChange={(value) => setSearchCity(value)}
+          />
 
-          <button className="w-2/6 rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold uppercase text-zinc-50 shadow-sm hover:bg-violet-500">
+          <button
+            className="w-2/6 rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold uppercase text-zinc-50 shadow-sm hover:bg-violet-500"
+            onClick={handleSearch}
+          >
             Buscar Agora
           </button>
         </div>
@@ -75,18 +110,31 @@ export default function Home() {
           <div className="w-app-lg">
             <h1 className="mb-2 text-2xl font-bold">Resultados</h1>
             <div className="flex flex-wrap justify-between gap-4 ">
-              {roomData.map((room) => (
-                <CardDesk
-                  key={room.id_room} // Lembre-se de fornecer uma chave única
-                  description={room.description}
-                  city={room.city}
-                  district={room.district}
-                  price={room.price}
-                  rating={room.rating}
-                  id={room.id_room}
-                  name={room.name}
-                />
-              ))}
+              {filteredRooms.length > 0
+                ? filteredRooms.map((room) => (
+                    <CardDesk
+                      key={room.id_room}
+                      description={room.description}
+                      city={room.city}
+                      district={room.district}
+                      price={room.price}
+                      rating={room.rating}
+                      id={room.id_room}
+                      name={room.name}
+                    />
+                  ))
+                : roomData.map((room) => (
+                    <CardDesk
+                      key={room.id_room}
+                      description={room.description}
+                      city={room.city}
+                      district={room.district}
+                      price={room.price}
+                      rating={room.rating}
+                      id={room.id_room}
+                      name={room.name}
+                    />
+                  ))}
             </div>
           </div>
         </div>

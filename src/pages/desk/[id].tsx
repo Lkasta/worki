@@ -7,6 +7,7 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import 'tailwindcss/tailwind.css'
 
+import { Footer } from '@/app/components/Footer'
 import { Header } from '@/app/header/Header'
 import {
   Archive,
@@ -38,6 +39,16 @@ interface RoomData {
   name: string
   Room_Services: RoomService[]
 }
+interface Feedback {
+  user: {
+    username: string
+  }
+  id_feedback: number
+  feedback: string
+  username: string
+  userID: number
+  // Outras propriedades do feedback conforme necessário
+}
 
 export default function Desk() {
   const router = useRouter()
@@ -54,6 +65,7 @@ export default function Desk() {
   const [nextAvailableDate, setNextAvailableDate] = useState<string | null>(
     null,
   )
+  const [feedbacks, setFeedbacks] = useState<Feedback[]>([]) // Adicionando estado para os feedbacks
 
   useEffect(() => {
     if (id) {
@@ -67,12 +79,22 @@ export default function Desk() {
             ) || [],
           )
         })
+
+      fetch(`/api/getFeedback?roomId=${id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => setFeedbacks(data))
     }
   }, [id])
 
   const handleReserve = async () => {
     setReservationError(null)
     setReservationSuccess(null)
+    console.log(feedbacks)
     try {
       const currentDate = new Date().toISOString().split('T')[0]
 
@@ -164,6 +186,7 @@ export default function Desk() {
         return null
     }
   }
+
   return (
     // <ProtectedRoute>
     <div>
@@ -244,6 +267,26 @@ export default function Desk() {
                 className="w-full rounded-lg"
                 aria-controls="none"
               ></iframe>
+              <div className="mt-4">
+                <h2 className="mb-2 text-2xl font-bold">
+                  Feedbacks dos Usuários
+                </h2>
+                {feedbacks.length > 0 ? (
+                  <ul className="divide-y divide-violet-700">
+                    {feedbacks.map((feedback) => (
+                      <li key={feedback.id_feedback} className="py-4">
+                        <p className="mb-2 font-bold">
+                          {feedback.user.username}
+                        </p>
+                        <p>{feedback.feedback}</p>
+                        {/* Adicione mais informações do feedback conforme necessário */}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>Nenhum feedback disponível.</p>
+                )}
+              </div>
             </div>
             <div className="flex w-1/3 flex-col gap-4">
               <div className="rounded-md border p-4">
@@ -324,6 +367,7 @@ export default function Desk() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   )
 }
