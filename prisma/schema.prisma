@@ -29,6 +29,7 @@ model Room {
 
   RentReserve   RentReserve[]
   Room_Services RoomServices[]
+  Feedback      Feedback[]
 }
 
 model User {
@@ -39,6 +40,7 @@ model User {
   cpf      String
 
   RentReserve RentReserve[]
+  Feedback    Feedback[]
 }
 
 model RentReserve {
@@ -68,4 +70,15 @@ model RoomServices {
 
   room    Room     @relation(fields: [id_room], references: [id_room])
   service Services @relation(fields: [id_service], references: [id_service])
+}
+
+model Feedback {
+  id_feedback Int    @id @default(autoincrement())
+  id_user     Int
+  id_room     Int
+  feedback    String
+  // Adicione outros campos importantes, se necessário
+
+  user User @relation(fields: [id_user], references: [id_user])
+  room Room @relation(fields: [id_room], references: [id_room])
 }

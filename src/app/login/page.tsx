@@ -15,6 +15,7 @@ export default function Login() {
   const [showWarningCad, setShowWarningCad] = useState(false)
   const [warningEmailCpf, setWarningEmailCpf] = useState(false)
   const [isLoggingIn, setIsLoggingIn] = useState(true)
+  const [userCreated, setUserCreated] = useState(false)
   const { signIn, isError } = useContext(AuthContext)
 
   const handleSignIn = () => {
@@ -48,6 +49,8 @@ export default function Login() {
 
       if (response.ok) {
         console.log('Usuário criado com sucesso!')
+        setUserCreated(true)
+        setShowWarningCad(false)
       } else {
         console.error('Erro ao criar usuário')
         setShowWarningCad(false)
@@ -184,6 +187,11 @@ export default function Login() {
                   <div className="text-red-500">
                     Não foi possível criar o usuário, verifique se o seu e-mail
                     já está cadastrado na plataforma.
+                  </div>
+                )}
+                {userCreated && (
+                  <div className="text-green-500">
+                    Cadastro realizado com sucesso.
                   </div>
                 )}
               </>

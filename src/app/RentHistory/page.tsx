@@ -1,7 +1,6 @@
 'use client'
-import { AuthContext } from '@/contexts/AuthContext'
 import { useRouter } from 'next/navigation'
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ElementListRent } from '../components/ElementListRent'
 import ErrorPage from '../errorPage/page'
 import { Header } from '../header/Header'
@@ -11,6 +10,7 @@ interface RentHistoryProps {
   room: {
     description: string
   }
+  id_room: number
   userId: number
   data_initial_reserve: string
   canceled: boolean
@@ -18,7 +18,6 @@ interface RentHistoryProps {
 
 export default function RentHistory() {
   const [reservations, setReservations] = useState<RentHistoryProps[]>([])
-  const { user } = useContext(AuthContext)
   const router = useRouter()
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const { parseCookies } = require('nookies')
@@ -29,7 +28,6 @@ export default function RentHistory() {
     if (!token) {
       router.push('/login')
     }
-    console.log(ErrorPage)
   }, [])
 
   useEffect(() => {
@@ -65,7 +63,6 @@ export default function RentHistory() {
                 Não há reservas disponíveis ainda.
               </div>
             ) : (
-              // Se o array não está vazio, renderiza as reservas
               reservations.map((reservation) => (
                 <ElementListRent
                   key={reservation.id_rent_reserve}

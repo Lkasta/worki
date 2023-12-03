@@ -1,6 +1,6 @@
 'use client'
 import { AuthContext } from '@/contexts/AuthContext'
-import { Nut } from '@phosphor-icons/react'
+import { SignOut } from '@phosphor-icons/react'
 import * as Tabs from '@radix-ui/react-tabs'
 import { useContext, useState } from 'react'
 import { NavItem } from './NavItem'
@@ -57,8 +57,8 @@ export function Header() {
           onClick={signOut}
           className="ml-auto flex items-center justify-center gap-3 rounded-full bg-red-500 px-4 py-2 font-bold text-white shadow"
         >
-          <Nut size={20} weight="bold" />
-          <p>Log out</p>
+          <SignOut size={20} weight="bold" />
+          <p>Log Out</p>
         </button>
       </div>
     </header>

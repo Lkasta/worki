@@ -1,6 +1,7 @@
 'use client'
 import { BookmarkSimple, Star } from '@phosphor-icons/react'
 import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 interface CardDeskProps {
   description: string
@@ -29,6 +30,10 @@ export function CardDesk({
     console.log(id)
     router.push(`/desk/${id}`) // Direcione o usuário para a página "desk" com o ID do card
   }
+
+  useEffect(() => {
+    console.log(city, name)
+  }, [])
 
   return (
     <div
