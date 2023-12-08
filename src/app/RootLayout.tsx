@@ -1,4 +1,7 @@
 import { AuthProvider } from '@/contexts/AuthContext'
+import { Inter } from 'next/font/google'
+
+const inter = Inter({ subsets: ['latin'], preload: false })
 
 export default function RootLayout({
   children,
@@ -7,8 +10,10 @@ export default function RootLayout({
 }) {
   return (
     <AuthProvider>
-      <html lang="en" className="font">
-        <body className={`grid min-h-screen text-zinc-700`}>{children}</body>
+      <html lang="pt-br" className="font">
+        <body className={`${inter.className}grid min-h-screen text-zinc-700`}>
+          {children}
+        </body>
       </html>
     </AuthProvider>
   )

@@ -6,16 +6,7 @@ import { CardDesk } from '../components/CardDesk'
 import { Footer } from '../components/Footer'
 import { Input } from '../components/Input'
 import { Header } from '../header/Header'
-
-interface Room {
-  id_room: number
-  description: string
-  city: string
-  district: string
-  price: number
-  rating: number
-  name: string
-}
+import { Room } from '@prisma/client'
 
 export default function Home() {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -102,7 +93,7 @@ export default function Home() {
             className="w-2/6 rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold uppercase text-zinc-50 shadow-sm hover:bg-violet-500"
             onClick={handleSearch}
           >
-            Buscar Agora
+            Buscar
           </button>
         </div>
 

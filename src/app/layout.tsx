@@ -1,10 +1,11 @@
 /* eslint-disable @next/next/no-sync-scripts */
 import { AuthProvider } from '@/contexts/AuthContext'
 import type { Metadata } from 'next'
-import { Roboto_Flex as Roboto } from 'next/font/google'
+import { Roboto_Flex as Roboto, Inter } from 'next/font/google'
+
 import './globals.css'
 
-const roboto = Roboto({ subsets: ['latin'], variable: '--font-roboto' })
+const roboto = Roboto({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Create Next App',
