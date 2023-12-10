@@ -12,19 +12,22 @@ const getFeedbacksHandler = async (
       return res.status(405).json({ error: 'Method Not Allowed' })
     }
 
-    // Obtenha o parâmetro de consulta "roomId" da solicitação
-    const { roomId } = req.query // Use req.query para parâmetros de consulta
+    const { roomId } = req.query
 
-    // Se o parâmetro roomId estiver presente, filtre os feedbacks por esse quarto
     const feedbacks = await prisma.feedback.findMany({
       where: {
-        id_room: parseInt(roomId as string, 10), // Converte para um número inteiro
+        id_room: parseInt(roomId as string, 10),
       },
       include: {
         user: {
           select: {
             id_user: true,
-            username: true, // Adicione outros campos do usuário, se necessário
+            username: true,
+          },
+        },
+        roomRating: {
+          select: {
+            rating: true,
           },
         },
       },

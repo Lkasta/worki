@@ -52,6 +52,9 @@ interface Feedback {
   user: {
     username: string
   }
+  roomRating: {
+    rating: number
+  }
   id_feedback: number
   feedback: string
   username: string
@@ -110,6 +113,14 @@ export default function Desk() {
         .catch((error) => console.error('Erro ao obter avaliações:', error))
     }
   }, [id])
+
+  const renderStarIcons = (rating: number): JSX.Element[] => {
+    const starIcons = []
+    for (let i = 0; i < rating; i++) {
+      starIcons.push(<Star key={i} size={20} weight="fill" color="#FFC700" />)
+    }
+    return starIcons
+  }
 
   const handleReserve = async () => {
     setReservationError(null)
@@ -296,24 +307,12 @@ export default function Desk() {
                 {feedbacks.length > 0 ? (
                   <ul className="divide-y divide-violet-700">
                     {feedbacks.map((feedback) => (
-                      <li
-                        key={feedback.id_feedback}
-                        className="my-4 rounded-lg bg-zinc-100 p-3"
-                      >
-                        <div className="flex items-center gap-2">
-                          <p className="flex items-center font-bold">
-                            {feedback.user.username}
-                          </p>
-                          <div className="flex items-center gap-1">
-                            <Star size={16} weight="fill" color="#FFC700" />
-                            <Star size={16} weight="fill" color="#FFC700" />
-                            <Star size={16} weight="fill" color="#FFC700" />
-                            <Star size={16} weight="fill" color="#FFC700" />
-                            <Star size={16} weight="fill" color="#FFC700" />
+                      <li key={feedback.id_feedback} className="py-4">
+                        <div className="mb-2 flex items-center font-bold">
+                          {feedback.user.username}
+                          <div className="ml-2 flex">
+                            {renderStarIcons(feedback.roomRating?.rating)}
                           </div>
-                          <p className="ml-auto text-xs text-zinc-400">
-                            10/12/2023
-                          </p>
                         </div>
                         <p>{feedback.feedback}</p>
                       </li>
