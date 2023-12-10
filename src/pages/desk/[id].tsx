@@ -21,6 +21,7 @@ import {
   Printer,
   PuzzlePiece,
   SketchLogo,
+  Star,
   Storefront,
   Thermometer,
   WifiHigh,
@@ -83,7 +84,7 @@ export default function Desk() {
         .then((data: RoomData) => {
           setRoomData(data)
           setServicesData(
-            data?.Room_Services.map(
+            data?.Room_Services?.map(
               (roomService) => roomService.service.description,
             ) || [],
           )
@@ -213,7 +214,10 @@ export default function Desk() {
         <div className="flex w-app-lg flex-col gap-4">
           <h1 className="pt-8 text-3xl font-bold "></h1>
           <div className="mt-[-10px] flex items-center gap-2">
-            <p>{rating} estrelas</p>
+            <div className="flex items-center gap-1">
+              <p className="font-bold">{rating}</p>
+              <Star size={16} weight="fill" color="#FFC700" />
+            </div>
             <div className="h-[3px] w-[3px] rounded-full bg-zinc-700"></div>
             <p>Valor por diária: R$ {roomData?.price}</p>
           </div>
@@ -292,12 +296,26 @@ export default function Desk() {
                 {feedbacks.length > 0 ? (
                   <ul className="divide-y divide-violet-700">
                     {feedbacks.map((feedback) => (
-                      <li key={feedback.id_feedback} className="py-4">
-                        <p className="mb-2 font-bold">
-                          {feedback.user.username}
-                        </p>
+                      <li
+                        key={feedback.id_feedback}
+                        className="my-4 rounded-lg bg-zinc-100 p-3"
+                      >
+                        <div className="flex items-center gap-2">
+                          <p className="flex items-center font-bold">
+                            {feedback.user.username}
+                          </p>
+                          <div className="flex items-center gap-1">
+                            <Star size={16} weight="fill" color="#FFC700" />
+                            <Star size={16} weight="fill" color="#FFC700" />
+                            <Star size={16} weight="fill" color="#FFC700" />
+                            <Star size={16} weight="fill" color="#FFC700" />
+                            <Star size={16} weight="fill" color="#FFC700" />
+                          </div>
+                          <p className="ml-auto text-xs text-zinc-400">
+                            10/12/2023
+                          </p>
+                        </div>
                         <p>{feedback.feedback}</p>
-                        {/* Adicione mais informações do feedback conforme necessário */}
                       </li>
                     ))}
                   </ul>

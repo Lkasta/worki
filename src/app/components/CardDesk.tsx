@@ -31,6 +31,13 @@ export function CardDesk({
     router.push(`/desk/${id}`) // Direcione o usuário para a página "desk" com o ID do card
   }
 
+  function trimCardDesk(str: string) {
+    if (str.length > 20) {
+      return str.substring(0, 17) + '...'
+    }
+    return str
+  }
+
   useEffect(() => {
     fetch(`/api/getRoomRating?roomId=${id}`, {
       method: 'GET',
@@ -53,7 +60,7 @@ export function CardDesk({
         className="mb-2 h-52 w-img-card-desk rounded-lg object-cover"
         alt="a"
       />
-      <div className="absolute right-4 top-4 flex flex-col items-end gap-2.5 shadow-md">
+      <div className="absolute right-4 top-4 flex flex-col items-end gap-2.5">
         {rating !== null && rating !== undefined && (
           <div className="flex items-center justify-center gap-1 rounded-full bg-white p-1 px-2">
             <p className="text-sm font-bold">{rating}</p>
@@ -64,9 +71,9 @@ export function CardDesk({
           <BookmarkSimple size={20} weight="fill" color="#FFC700" />
         </div>
       </div>
-      <h1 className="text-xl font-bold">{name}</h1>
+      <h1 className="text-xl font-bold">{trimCardDesk(name)}</h1>
       <h1 className="text-sm font-bold text-zinc-400">
-        {city} - {district}
+        {trimCardDesk(city + ' - ' + district)}
       </h1>
       <div className="flex content-between items-center justify-center">
         <p className="text-xs font-bold">R$ {price}</p>

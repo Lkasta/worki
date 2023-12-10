@@ -40,7 +40,14 @@ export function ElementListRentAdmin({
     const diaFormatado = dia < 10 ? `0${dia}` : dia
     const mesFormatado = mes < 10 ? `0${mes}` : mes
 
-    return `${diaFormatado}-${mesFormatado}-${ano}`
+    return `${diaFormatado}/${mesFormatado}/${ano}`
+  }
+
+  function trimText(str: string) {
+    if (str.length > 30) {
+      return str.substring(0, 25) + '...'
+    }
+    return str
   }
 
   return (
@@ -49,7 +56,7 @@ export function ElementListRentAdmin({
         <div className="h-full w-3 bg-purple-700" />
         <div className="flex-auto">
           <p className="text-sm font-semibold leading-6 text-gray-900">
-            {deskName}
+            {trimText(deskName)}
           </p>
           <p className="mt-1 truncate text-xs leading-5 text-gray-500">
             CoworkingInPato
@@ -57,9 +64,14 @@ export function ElementListRentAdmin({
         </div>
       </div>
       <div className="flex items-center gap-3">
-        <p className="mt-1 text-xs leading-5 text-gray-500">
-          {formatarData(initialDate)} - {formatarData(finalDate)}
-        </p>
+        <div className="text-right">
+          <p className="mt-1 text-xs leading-5 text-gray-500">
+            Data Inicial {formatarData(initialDate)}
+          </p>
+          <p className="mt-1 text-xs leading-5 text-gray-500">
+            Data Saida {formatarData(finalDate)}
+          </p>
+        </div>
         <span className="relative flex h-2.5 w-2.5">
           <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-violet-700" />
         </span>

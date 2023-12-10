@@ -29,11 +29,11 @@ export function CardAvaliacaoUser({
         <div className="">
           <div className="flex min-h-fit gap-2 rounded-lg bg-zinc-100 p-2">
             <div className="">
-              <UserCircle size={28} weight="fill" color="#8b8b8b" />
+              <UserCircle size={24} weight="fill" color="#8b8b8b" />
             </div>
             <div className="w-auto">
               <div className="flex items-center gap-2">
-                <h3 className="font-black text-gray-900">{nameUser}</h3>
+                <h3 className="text-sm font-black text-gray-900">{nameUser}</h3>
                 <h2 className="text-xs">•</h2>
                 <div className="flex items-center gap-1">
                   <p>{stars} estrelas</p>
@@ -42,7 +42,7 @@ export function CardAvaliacaoUser({
 
               <p
                 placeholder="Avaliação do usuário..."
-                className="font-semibold"
+                className="text-sm font-semibold"
               >
                 {feedback}
               </p>
