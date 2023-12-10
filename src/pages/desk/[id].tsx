@@ -21,6 +21,7 @@ import {
   Printer,
   PuzzlePiece,
   SketchLogo,
+  Star,
   Storefront,
   Thermometer,
   WifiHigh,
@@ -50,6 +51,9 @@ interface RoomData {
 interface Feedback {
   user: {
     username: string
+  }
+  roomRating: {
+    rating: number
   }
   id_feedback: number
   feedback: string
@@ -83,7 +87,7 @@ export default function Desk() {
         .then((data: RoomData) => {
           setRoomData(data)
           setServicesData(
-            data?.Room_Services.map(
+            data?.Room_Services?.map(
               (roomService) => roomService.service.description,
             ) || [],
           )
@@ -109,6 +113,14 @@ export default function Desk() {
         .catch((error) => console.error('Erro ao obter avaliações:', error))
     }
   }, [id])
+
+  const renderStarIcons = (rating: number): JSX.Element[] => {
+    const starIcons = []
+    for (let i = 0; i < rating; i++) {
+      starIcons.push(<Star key={i} size={20} weight="fill" color="#FFC700" />)
+    }
+    return starIcons
+  }
 
   const handleReserve = async () => {
     setReservationError(null)
@@ -213,7 +225,6 @@ export default function Desk() {
         <div className="flex w-app-lg flex-col gap-4">
           <h1 className="pt-8 text-3xl font-bold "></h1>
           <div className="mt-[-10px] flex items-center gap-2">
-            <p>{rating} estrelas</p>
             <div className="h-[3px] w-[3px] rounded-full bg-zinc-700"></div>
             <p>Valor por diária: R$ {roomData?.price}</p>
           </div>
@@ -293,11 +304,13 @@ export default function Desk() {
                   <ul className="divide-y divide-violet-700">
                     {feedbacks.map((feedback) => (
                       <li key={feedback.id_feedback} className="py-4">
-                        <p className="mb-2 font-bold">
+                        <div className="mb-2 flex items-center font-bold">
                           {feedback.user.username}
-                        </p>
+                          <div className="ml-2 flex">
+                            {renderStarIcons(feedback.roomRating?.rating)}
+                          </div>
+                        </div>
                         <p>{feedback.feedback}</p>
-                        {/* Adicione mais informações do feedback conforme necessário */}
                       </li>
                     ))}
                   </ul>
