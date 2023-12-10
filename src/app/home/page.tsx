@@ -20,13 +20,13 @@ interface Room {
 export default function Home() {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const { parseCookies } = require('nookies')
-  const router = useRouter()
   const [searchName, setSearchName] = useState('')
   const [searchCity, setSearchCity] = useState('')
   const [filteredRooms, setFilteredRooms] = useState<Room[]>([])
   const [roomData, setRoomData] = useState<Room[]>([])
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
+  const router = useRouter()
 
   useEffect(() => {
     const { 'nextauth.token': token } = parseCookies()

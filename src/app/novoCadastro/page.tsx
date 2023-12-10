@@ -1,8 +1,10 @@
 'use client'
 import { ForkKnife } from '@phosphor-icons/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Input } from '../components/Input'
 import { Header } from '../header/Header'
+import { useRouter } from 'next/navigation'
+import { parseCookies } from 'nookies'
 
 export default function NovoCadastro() {
   function CustomCheckbox() {
@@ -12,6 +14,18 @@ export default function NovoCadastro() {
       setChecked(!checked)
     }
   }
+
+  const router = useRouter()
+
+  useEffect(() => {
+    const { 'nextauth.token': token } = parseCookies()
+
+    if (!token) {
+      router.push('/login')
+    }
+    console.log(token)
+  }, [])
+
   return (
     <div>
       <Header />

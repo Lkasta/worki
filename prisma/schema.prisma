@@ -78,10 +78,12 @@ model RoomServices {
 }
 
 model Feedback {
-  id_feedback Int    @id @default(autoincrement())
-  id_user     Int
-  id_room     Int
-  feedback    String
+  id_feedback  Int      @id @default(autoincrement())
+  id_user      Int
+  id_room      Int
+  feedback     String
+  dataFeedback DateTime @default(now())
+
   // Adicione outros campos importantes, se necessário
 
   user User @relation(fields: [id_user], references: [id_user])
@@ -91,13 +93,13 @@ model Feedback {
 }
 
 model RoomRating {
-  id_room_rating Int    @id @default(autoincrement())
+  id_room_rating Int @id @default(autoincrement())
   id_user        Int
-  id_feedback    Int   @unique   // Agora, id_feedback é único
+  id_feedback    Int @unique // Agora, id_feedback é único
   id_room        Int
-  rating         Int   // Pode ser um número de 1 a 5, representando as estrelas  
+  rating         Int // Pode ser um número de 1 a 5, representando as estrelas  
 
-  user User @relation(fields: [id_user], references: [id_user])
-  room Room @relation(fields: [id_room], references: [id_room])
+  user     User     @relation(fields: [id_user], references: [id_user])
+  room     Room     @relation(fields: [id_room], references: [id_room])
   feedback Feedback @relation(fields: [id_feedback], references: [id_feedback])
 }

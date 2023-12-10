@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Feedback" ALTER COLUMN "dataFeedback" SET DEFAULT CURRENT_TIMESTAMP;

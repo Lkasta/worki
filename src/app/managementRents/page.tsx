@@ -1,6 +1,8 @@
 'use client'
 
 import { Star } from '@phosphor-icons/react'
+import { useRouter } from 'next/navigation'
+import { parseCookies } from 'nookies'
 import { useEffect, useState } from 'react'
 import { CardAvaliacaoUser } from '../components/CardAvaliacaoUser'
 import { ElementListRentAdmin } from '../components/ElementListRentAdmin'
@@ -58,6 +60,7 @@ export interface Room {
 // eslint-disable-next-line camelcase
 export default function ManagementRents() {
   const [userRoomsFeedbacks, setUserRoomsFeedbacks] = useState<Room[]>([])
+  const router = useRouter()
 
   useEffect(() => {
     fetch('/api/getUserRoomsFeedbacks', {
@@ -74,6 +77,15 @@ export default function ManagementRents() {
       .catch((error) =>
         console.error('Erro ao obter quartos e feedbacks do usuário:', error),
       )
+  }, [])
+
+  useEffect(() => {
+    const { 'nextauth.token': token } = parseCookies()
+
+    if (!token) {
+      router.push('/login')
+    }
+    console.log(token)
   }, [])
 
   return (

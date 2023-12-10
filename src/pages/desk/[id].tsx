@@ -59,6 +59,7 @@ interface Feedback {
   feedback: string
   username: string
   userID: number
+  dataFeedback: string
   // Outras propriedades do feedback conforme necessário
 }
 
@@ -127,6 +128,25 @@ export default function Desk() {
     }
 
     return starIcons
+  }
+
+  function formatarData(dataString: string) {
+    const data = new Date(dataString)
+
+    // Ajusta o fuso horário para o fuso horário local
+    const dataLocal = new Date(
+      data.getTime() - data.getTimezoneOffset() * 60000,
+    )
+
+    const dia = dataLocal.getDate()
+    const mes = dataLocal.getMonth() + 1 // Mês começa do zero, então é necessário adicionar 1
+    const ano = dataLocal.getFullYear()
+
+    // Adiciona zeros à esquerda se necessário
+    const diaFormatado = dia < 10 ? `0${dia}` : dia
+    const mesFormatado = mes < 10 ? `0${mes}` : mes
+
+    return `${diaFormatado}-${mesFormatado}-${ano}`
   }
 
   const handleReserve = async () => {
@@ -318,11 +338,16 @@ export default function Desk() {
                         key={feedback.id_feedback}
                         className="rounded-lg bg-zinc-100 p-2 py-4"
                       >
-                        <div className="flex items-center gap-2 font-bold">
-                          {feedback.user.username}
-                          <div className="flex gap-0.5">
-                            {renderStarIcons(feedback.roomRating?.rating)}
+                        <div className="flex justify-between">
+                          <div className="flex items-center gap-2 font-bold">
+                            {feedback.user.username}
+                            <div className="flex gap-0.5">
+                              {renderStarIcons(feedback.roomRating?.rating)}
+                            </div>
                           </div>
+                          <p className="text-xs">
+                            {formatarData(feedback.dataFeedback)}
+                          </p>
                         </div>
                         <p>{feedback.feedback}</p>
                       </li>
