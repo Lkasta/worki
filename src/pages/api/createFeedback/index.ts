@@ -21,7 +21,7 @@ const createFeedbackHandler = async (
     const userId = verifyToken(token, 'nextauth.token')
 
     // eslint-disable-next-line camelcase
-    const { id_room, feedback } = req.body
+    const { id_room, feedback, rating } = req.body
 
     const newFeedback = await prisma.feedback.create({
       data: {
@@ -32,6 +32,18 @@ const createFeedbackHandler = async (
         feedback,
       },
     })
+
+    const newStarRating = await prisma.roomRating.create({
+      data: {
+        // eslint-disable-next-line camelcase
+        id_feedback: newFeedback.id_feedback,
+        id_user: userId,
+        // eslint-disable-next-line camelcase
+        id_room,
+        rating,
+      },
+    })
+
     return res.status(200).json({ message: 'Feedback created successfully' })
   } catch (error) {
     console.error(error)

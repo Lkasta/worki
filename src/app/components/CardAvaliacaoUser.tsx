@@ -1,15 +1,25 @@
 'use client'
-import { DotsThreeVertical, Star, UserCircle } from '@phosphor-icons/react'
+import { DotsThreeVertical, UserCircle } from '@phosphor-icons/react'
 
-export function CardAvaliacaoUser() {
+interface CardAvaliacaoUProps {
+  nameUser: string
+  nameDesk: string
+  feedback: string
+  stars: number
+}
+
+export function CardAvaliacaoUser({
+  nameUser,
+  nameDesk,
+  feedback,
+  stars,
+}: CardAvaliacaoUProps) {
   return (
     <div className="rounded-lg border border-zinc-300 bg-white p-1">
       <div className="m-1 ">
         {/* Title */}
         <div className="mb-2 flex items-center gap-1">
-          <h2 className="text-sm font-bold">Nome da Desk</h2>
-          <h2 className="text-xs">•</h2>
-          <h2 className="text-sm">12/23</h2>
+          <h2 className="text-sm font-bold">{nameDesk}</h2>
           <DotsThreeVertical
             size={16}
             weight="bold"
@@ -23,14 +33,10 @@ export function CardAvaliacaoUser() {
             </div>
             <div className="w-auto">
               <div className="flex items-center gap-2">
-                <h3 className="font-black text-gray-900">Joninhas Craft</h3>
+                <h3 className="font-black text-gray-900">{nameUser}</h3>
                 <h2 className="text-xs">•</h2>
                 <div className="flex items-center gap-1">
-                  <Star size={13} weight="fill" color="#FFC700" />
-                  <Star size={13} weight="fill" color="#FFC700" />
-                  <Star size={13} weight="fill" color="#FFC700" />
-                  <Star size={13} weight="fill" color="#FFC700" />
-                  <Star size={13} weight="fill" color="#8b8b8b" />
+                  <p>{stars} estrelas</p>
                 </div>
               </div>
 
@@ -38,9 +44,7 @@ export function CardAvaliacaoUser() {
                 placeholder="Avaliação do usuário..."
                 className="font-semibold"
               >
-                Uma grande merda de lugar, nunca mais vou nessa bos tabostabos
-                tabost abost abostabost abostab ostabo stabostab stabo sta bosta
-                stabo stabosta.
+                {feedback}
               </p>
             </div>
           </div>

@@ -1,14 +1,14 @@
 'use client'
-import { useState } from 'react'
 import { DropDownHistory } from './DropDownHistory'
 interface ReservationProps {
   id_rent_reserve: number
   room: {
-    description: string
+    name: string
   }
   id_room: number
   userId: number
   data_initial_reserve: string
+  data_final_reserve: string
   canceled: boolean
 }
 
@@ -19,7 +19,6 @@ export function ElementListRent({
   reservation: ReservationProps
 }) {
   function formatarData(dataString: string) {
-    console.log(dataString)
     const diasSemana = [
       'domingo',
       'segunda-feira',
@@ -46,14 +45,7 @@ export function ElementListRent({
     const diaFormatado = dia < 10 ? `0${dia}` : dia
     const mesFormatado = mes < 10 ? `0${mes}` : mes
 
-    console.log(dataLocal)
     return `${diaFormatado}-${mesFormatado}-${ano}`
-  }
-
-  const [isOpen, setIsOpen] = useState(false)
-
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen)
   }
 
   return (
@@ -66,7 +58,7 @@ export function ElementListRent({
         />
         <div className="min-w-0 flex-auto">
           <p className="text-sm font-semibold leading-6 text-gray-900">
-            {reservation.room.description}
+            {reservation.room.name}
           </p>
           <p className="mt-1 truncate text-xs leading-5 text-gray-500">
             CoworkingInPato
@@ -75,7 +67,8 @@ export function ElementListRent({
       </div>
       <div className="flex items-center gap-3">
         <p className="mt-1 text-xs leading-5 text-gray-500">
-          Agendado para dia {formatarData(reservation.data_initial_reserve)}
+          Data de início {formatarData(reservation.data_initial_reserve)} | Data
+          de término: {formatarData(reservation.data_final_reserve)}
         </p>
         <span
           className={`flex h-2.5 w-2.5 rounded-full ${

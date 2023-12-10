@@ -5,10 +5,14 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const { method } = req
-
   if (req.method === 'GET') {
-    const rooms = await getRooms()
+    const { startDate, endDate } = req.query
+
+    // Verifica se startDate e endDate são arrays, então use o primeiro item
+    const start = Array.isArray(startDate) ? startDate[0] : startDate
+    const end = Array.isArray(endDate) ? endDate[0] : endDate
+
+    const rooms = await getRooms(start, end)
 
     return res.status(200).json({
       data: rooms,

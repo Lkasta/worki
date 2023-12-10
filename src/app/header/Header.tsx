@@ -39,16 +39,16 @@ export function Header() {
               destiny="RentHistory"
             />
             <NavItem
-              value="contato"
-              title="Contato"
-              isSelected={currentTab === 'contato'}
-              destiny="home"
-            />
-            <NavItem
               value="cadDesk"
-              title="Cadastro "
+              title="Cadastrar Sala"
               isSelected={currentTab === 'cadDesk'}
               destiny="cadDesk"
+            />
+            <NavItem
+              value="yourDesks"
+              title="Suas Salas"
+              isSelected={currentTab === 'yourDesks'}
+              destiny="yourDesks"
             />
           </Tabs.List>
         </Tabs.Root>

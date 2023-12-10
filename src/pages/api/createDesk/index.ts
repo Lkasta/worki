@@ -1,4 +1,5 @@
 // pages/api/createDesk.ts
+import verifyToken from '@/lib/verifyToken'
 import { PrismaClient } from '@prisma/client'
 import { NextApiRequest, NextApiResponse } from 'next'
 
@@ -10,6 +11,21 @@ export default async function handler(
 ) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method Not Allowed' })
+  }
+  console.log('entrou aqui')
+  const token = req.cookies['nextauth.token']
+
+  if (!token) {
+    return res.status(401).json({ error: 'Token not found' })
+  }
+
+  // eslint-disable-next-line camelcase
+  const id_user = verifyToken(token, 'nextauth.token')
+  console.log(id_user)
+
+  // eslint-disable-next-line camelcase
+  if (!id_user) {
+    return res.status(401).json({ error: 'Invalid token' })
   }
 
   try {
@@ -32,7 +48,6 @@ export default async function handler(
       services,
     } = req.body
 
-    console.log('descricao', description)
     console.log(services)
     const createdDesk = await prisma.room.create({
       data: {
@@ -50,6 +65,8 @@ export default async function handler(
         image1,
         image2,
         image3,
+        // eslint-disable-next-line camelcase
+        id_user,
         Room_Services: {
           create: services.map((serviceId: number) => ({
             service: { connect: { id_service: serviceId } },

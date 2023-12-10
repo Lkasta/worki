@@ -11,17 +11,18 @@ interface CardDeskProps {
   rating: number
   id: number
   name: string
+  image1: string
   // Adicione o ID como uma propriedade
 }
 
 export function CardDesk({
-  description,
   city,
   district,
   price,
   rating,
   id,
-  name, // Adicione o ID como uma propriedade
+  name,
+  image1, // Adicione o ID como uma propriedade
 }: CardDeskProps) {
   const router = useRouter()
 
@@ -31,17 +32,13 @@ export function CardDesk({
     router.push(`/desk/${id}`) // Direcione o usuário para a página "desk" com o ID do card
   }
 
-  useEffect(() => {
-    console.log(city, name)
-  }, [])
-
   return (
     <div
       className="relative w-[183] cursor-pointer rounded-lg border border-gray-300 p-2.5 shadow"
       onClick={handleClickCard}
     >
       <img
-        src="https://www.deskcoworking.com.br/wp-content/uploads/2022/04/estacoes-de-trabalho-de-coworking-desk-coworking-2-e1652918932256.jpg"
+        src={image1}
         className="mb-2 h-52 w-img-card-desk rounded-lg object-cover"
         alt="a"
       />

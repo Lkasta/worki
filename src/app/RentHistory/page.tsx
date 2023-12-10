@@ -2,17 +2,17 @@
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { ElementListRent } from '../components/ElementListRent'
-import ErrorPage from '../errorPage/page'
 import { Header } from '../header/Header'
 
 interface RentHistoryProps {
   id_rent_reserve: number
   room: {
-    description: string
+    name: string
   }
   id_room: number
   userId: number
   data_initial_reserve: string
+  data_final_reserve: string
   canceled: boolean
 }
 

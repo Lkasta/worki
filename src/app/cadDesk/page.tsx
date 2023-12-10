@@ -8,7 +8,7 @@ import { Input } from '../components/Input'
 import { Header } from '../header/Header'
 
 interface services {
-  id: number,
+  id_service: number,
   description: string
 }
 
@@ -52,25 +52,9 @@ export default function cadDesk() {
     }
   };
 
-
   const handleCreateDesk = async () => {
-    if (
-      !name ||
-      !description ||
-      !city ||
-      !postalCode ||
-      !neighborhood ||
-      !address ||
-      !addressNumber ||
-      !district ||
-      !complement ||
-      !price ||
-      !rating ||
-      !image1 ||
-      !image2 ||
-      !image3 ||
-      selectedServices.length === 0
-    ) {
+    console.log('entrou')
+   
       try {
         const response = await fetch('/api/createDesk', {
           method: 'POST',
@@ -103,7 +87,7 @@ export default function cadDesk() {
       } catch (error) {
         console.error(error)
       }
-    }
+    
   }
   return (
     <div>
@@ -126,7 +110,6 @@ export default function cadDesk() {
                 label="Descrição"
                 name="descricao"
                 onChange={(value) => setDescription(value)}
-                textArea
               />
             </div>
             <div className="h-[1px] w-full bg-zinc-300" />
@@ -201,11 +184,11 @@ export default function cadDesk() {
             <div className="grid grid-cols-4 gap-5 pb-4">
               {services && services.map((service) => (
                 <CheckboxCadDesk
-                  key={service.id}
+                  key={service.id_service}
                   title={service.description}
-                  onClick={() => handleServiceCheckboxChange(service.id)}
-                  checked={selectedServices.includes(service.id)}
-                  serviceID={service.id}
+                  onClick={() => handleServiceCheckboxChange(service.id_service)}
+                  checked={selectedServices.includes(service.id_service)}
+                  serviceID={service.id_service}
                 />
               ))}
             </div>
@@ -218,18 +201,21 @@ export default function cadDesk() {
                 placeholder="Informe o link da Imagem..."
                 label="Imagem 1"
                 name="imagem"
+                onChange={(value) => setImage1(value)}
               />
               <Input
                 type="link"
                 placeholder="Informe o link da imagem..."
                 label="Imagem 2"
                 name="imagem2"
+                onChange={(value) => setImage2(value)}
               />
               <Input
                 type="link"
                 placeholder="Informe o link da imagem..."
                 label="Imagem 3"
                 name="imagem3"
+                onChange={(value) => setImage3(value)}
               />
             </div>
           </div>

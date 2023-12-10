@@ -26,10 +26,13 @@ model Room {
   image1        String
   image2        String
   image3        String
+  id_user       Int? // Adicione o campo de relacionamento com User
 
   RentReserve   RentReserve[]
   Room_Services RoomServices[]
   Feedback      Feedback[]
+  user          User?          @relation(fields: [id_user], references: [id_user]) // Defina a relação
+  RoomRating    RoomRating[]
 }
 
 model User {
@@ -41,6 +44,8 @@ model User {
 
   RentReserve RentReserve[]
   Feedback    Feedback[]
+  Room        Room[]
+  RoomRating  RoomRating[]
 }
 
 model RentReserve {
@@ -81,4 +86,18 @@ model Feedback {
 
   user User @relation(fields: [id_user], references: [id_user])
   room Room @relation(fields: [id_room], references: [id_room])
+
+  roomRating RoomRating?
+}
+
+model RoomRating {
+  id_room_rating Int    @id @default(autoincrement())
+  id_user        Int
+  id_feedback    Int   @unique   // Agora, id_feedback é único
+  id_room        Int
+  rating         Int   // Pode ser um número de 1 a 5, representando as estrelas  
+
+  user User @relation(fields: [id_user], references: [id_user])
+  room Room @relation(fields: [id_room], references: [id_room])
+  feedback Feedback @relation(fields: [id_feedback], references: [id_feedback])
 }
