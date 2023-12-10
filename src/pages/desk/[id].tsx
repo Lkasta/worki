@@ -116,9 +116,16 @@ export default function Desk() {
 
   const renderStarIcons = (rating: number): JSX.Element[] => {
     const starIcons = []
-    for (let i = 0; i < rating; i++) {
-      starIcons.push(<Star key={i} size={20} weight="fill" color="#FFC700" />)
+    const totalStars = 5
+
+    for (let i = 0; i < totalStars; i++) {
+      if (i < rating) {
+        starIcons.push(<Star key={i} size={16} weight="fill" color="#FFC700" />)
+      } else {
+        starIcons.push(<Star key={i} size={16} weight="fill" color="#C4C4C4" />)
+      }
     }
+
     return starIcons
   }
 
@@ -305,12 +312,15 @@ export default function Desk() {
                   Feedbacks dos Usuários
                 </h2>
                 {feedbacks.length > 0 ? (
-                  <ul className="divide-y divide-violet-700">
+                  <ul className=" flex flex-col gap-2">
                     {feedbacks.map((feedback) => (
-                      <li key={feedback.id_feedback} className="py-4">
-                        <div className="mb-2 flex items-center font-bold">
+                      <li
+                        key={feedback.id_feedback}
+                        className="rounded-lg bg-zinc-100 p-2 py-4"
+                      >
+                        <div className="flex items-center gap-2 font-bold">
                           {feedback.user.username}
-                          <div className="ml-2 flex">
+                          <div className="flex gap-0.5">
                             {renderStarIcons(feedback.roomRating?.rating)}
                           </div>
                         </div>
