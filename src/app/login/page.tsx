@@ -233,7 +233,13 @@ export default function Login() {
           </div>
         </div>
       </div>
-      <div className="bg-violet-700"></div>
+      <div className="flex h-screen items-center justify-center bg-violet-700">
+        <img
+          src="https://i.ibb.co/0p0HFpt/worki.png"
+          alt=""
+          className="h-full object-cover object-center"
+        />
+      </div>
     </div>
   )
 }
