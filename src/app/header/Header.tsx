@@ -45,10 +45,10 @@ export function Header() {
               destiny="cadDesk"
             />
             <NavItem
-              value="yourDesks"
+              value="managementRents"
               title="Suas Salas"
-              isSelected={currentTab === 'yourDesks'}
-              destiny="yourDesks"
+              isSelected={currentTab === 'managementRents'}
+              destiny="managementRents"
             />
           </Tabs.List>
         </Tabs.Root>

@@ -128,7 +128,6 @@ export default function Home() {
                     city={room.city}
                     district={room.district}
                     price={room.price}
-                    rating={room.rating}
                     id={room.id_room}
                     name={room.name}
                     image1={room.image1}

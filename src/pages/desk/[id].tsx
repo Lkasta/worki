@@ -213,7 +213,7 @@ export default function Desk() {
         <div className="flex w-app-lg flex-col gap-4">
           <h1 className="pt-8 text-3xl font-bold "></h1>
           <div className="mt-[-10px] flex items-center gap-2">
-            <p>{rating}</p>
+            <p>{rating} estrelas</p>
             <div className="h-[3px] w-[3px] rounded-full bg-zinc-700"></div>
             <p>Valor por diária: R$ {roomData?.price}</p>
           </div>
