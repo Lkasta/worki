@@ -11,8 +11,8 @@ export interface RentReserve {
   id_user: number
   id_room: number
   canceled: boolean
-  data_initial_reserve: Date
-  data_final_reserve: Date
+  data_initial_reserve: string
+  data_final_reserve: string
 }
 
 export interface RoomRating {
@@ -42,7 +42,6 @@ export interface Feedback {
   roomRating: RoomRating // Alterado para ser opcional
   // Adicione outros campos importantes, se necessário
 }
-
 export interface Room {
   id_room: number
   name: string
@@ -51,7 +50,7 @@ export interface Room {
   image2: string
   image3: string
   id_user: number | null
-  RentReserve: RentReserve
+  RentReserve: RentReserve[]
   Feedback: Feedback[]
   user: User | null
   RoomRating: RoomRating[]
@@ -122,13 +121,17 @@ export default function ManagementRents() {
               {/* Historco de Avaliacoes */}
               <h2 className="font-bold">Ultimas Reservas</h2>
               {userRoomsFeedbacks.map((room) => (
-                <ElementListRentAdmin
-                  key={room.RentReserve.id_rent_reserve}
-                  deskName={room.name}
-                  cancelado={room.RentReserve.canceled}
-                  initialDate={room.RentReserve.data_initial_reserve}
-                  finalDate={room.RentReserve.data_final_reserve}
-                />
+                <div key={room.id_room}>
+                  {room.RentReserve.map((reservation) => (
+                    <ElementListRentAdmin
+                      key={reservation.id_rent_reserve}
+                      deskName={room.name}
+                      cancelado={reservation.canceled}
+                      initialDate={reservation.data_initial_reserve}
+                      finalDate={reservation.data_final_reserve}
+                    />
+                  ))}
+                </div>
               ))}
             </div>
           </div>
