@@ -124,7 +124,7 @@ export default function Login() {
                     name="nome"
                     type="text"
                     label="Nome"
-                    placeholder="Japodih Almosah"
+                    placeholder="Seu nome"
                     value={nome}
                     onChange={(value) => setNome(value)}
                   />

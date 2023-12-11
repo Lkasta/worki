@@ -32,7 +32,7 @@ export function CardDesk({
   }
 
   function trimCardDesk(str: string) {
-    if (str.length > 20) {
+   if (str.length > 20) {
       return str.substring(0, 17) + '...'
     }
     return str
