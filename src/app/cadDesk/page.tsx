@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable prettier/prettier */
 'use client'
+import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { CheckboxCadDesk } from '../components/CheckboxCadDesk'
 import { Footer } from '../components/Footer'
@@ -29,6 +30,7 @@ export default function cadDesk() {
   const [image3, setImage3] = useState('')
   const [services, setServices] = useState<services[] | null>(null)
   const [selectedServices, setSelectedServices] = useState<number[]>([])
+  const router = useRouter()
 
   useEffect(() => {
     fetch('/api/getServices')
@@ -81,6 +83,7 @@ export default function cadDesk() {
         })
         if (response.ok) {
           console.log('Desk criada com sucesso!')
+          router.push('/home')
         } else {
           console.error('Erro ao criar Desk')
         }
@@ -172,7 +175,7 @@ export default function cadDesk() {
                 <Input
                   type="number"
                   placeholder="Preço"
-                  label="Preço"
+                  label="Preço da diária"
                   name="Preço"
                   onChange={(value) => setPrice(parseFloat(value))}
                 />

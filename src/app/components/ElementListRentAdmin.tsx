@@ -66,7 +66,7 @@ export function ElementListRentAdmin({
       <div className="flex items-center gap-3">
         <div className="text-right">
           <p className="mt-1 text-xs leading-5 text-gray-500">
-            Data Inicial {formatarData(initialDate)}
+            Data Inicio {formatarData(initialDate)}
           </p>
           <p className="mt-1 text-xs leading-5 text-gray-500">
             Data Saida {formatarData(finalDate)}

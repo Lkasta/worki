@@ -146,7 +146,7 @@ export default function Desk() {
     const diaFormatado = dia < 10 ? `0${dia}` : dia
     const mesFormatado = mes < 10 ? `0${mes}` : mes
 
-    return `${diaFormatado}-${mesFormatado}-${ano}`
+    return `${diaFormatado}/${mesFormatado}/${ano}`
   }
 
   const handleReserve = async () => {

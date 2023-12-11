@@ -3,6 +3,7 @@ import { AuthContext } from '@/contexts/AuthContext'
 import { useRouter } from 'next/navigation'
 import { useContext, useEffect, useState } from 'react'
 import { CardDesk } from '../components/CardDesk'
+import { Footer } from '../components/Footer'
 import { Input } from '../components/Input'
 import { Header } from '../header/Header'
 
@@ -80,7 +81,7 @@ export default function Home() {
         <div className="flex h-52 w-full items-center justify-center bg-violet-600">
           {user?.username && (
             <h1 className="text-center text-5xl font-bold text-white">
-              <p>Olá {getFirstName(user.username)}!</p> Os mais próximo para
+              <p>Olá {getFirstName(user.username)}!</p> Busque o mais próximo de
               você...
             </h1>
           )}
@@ -140,6 +141,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <Footer></Footer>
     </div>
   )
 }

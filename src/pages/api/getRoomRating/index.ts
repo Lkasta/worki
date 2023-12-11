@@ -3,6 +3,10 @@ import { NextApiRequest, NextApiResponse } from 'next'
 
 const prisma = new PrismaClient()
 
+function trimNumber(num: number): number {
+  return parseFloat(num.toFixed(1))
+}
+
 const getRoomAverageRating = async (
   req: NextApiRequest,
   res: NextApiResponse,
@@ -37,9 +41,8 @@ const getRoomAverageRating = async (
       (sum, rating) => sum + rating.rating,
       0,
     )
-    const averageRating = totalRating / roomRatings.length
-
-    console.log(averageRating)
+    let averageRating = totalRating / roomRatings.length
+    averageRating = trimNumber(averageRating)
 
     return res.status(200).json({ averageRating })
   } catch (error) {
